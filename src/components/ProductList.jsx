@@ -22,7 +22,11 @@ export default class ProductList extends Component {
                 {loading ? <p className="loading-message">Carregando...</p> : (
                   <ul>
                     {prodList.map((product) => (
-                      <ProductCard key={ Math.random() } product={ product } />
+                      <ProductCard
+                        key={ Math.random() }
+                        isHomePageProduct
+                        product={ product }
+                      />
                     ))}
                   </ul>
                 )}

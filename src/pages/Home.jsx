@@ -30,11 +30,11 @@ export default class Home extends Component {
 
   handleChangeCategory = async ({ target }) => {
     const categoryId = target.value;
+    const { searchInput } = this.state;
     this.setState({
       categoryId,
+      loading: true,
     });
-    const { searchInput } = this.state;
-    this.setState({ loading: true });
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     this.setState({
       prodList: prodsData.results,
