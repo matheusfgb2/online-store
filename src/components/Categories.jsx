@@ -1,19 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { getCategories } from '../services/api';
 
 export default class Categories extends Component {
-  state = {
-    categories: [],
-  };
-
-  async componentDidMount() {
-    this.setState({
-      categories: await getCategories(),
-    });
-  }
-
   render() {
-    const { categories } = this.state;
+    const { categories } = this.props;
     return (
       <div>
         <h2>Categorias</h2>
@@ -31,3 +21,10 @@ export default class Categories extends Component {
     );
   }
 }
+
+Categories.propTypes = {
+  categories: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
+}.isRequired;
