@@ -13,6 +13,7 @@ export default class Home extends Component {
     prodList: [],
     searchInput: '',
     categoryId: '',
+    loading: false,
   };
 
   async componentDidMount() {
@@ -28,22 +29,28 @@ export default class Home extends Component {
   };
 
   handleChangeCategory = async ({ target }) => {
-    const categoryId = target.id;
+    const categoryId = target.value;
+    this.setState({
+      categoryId,
+    });
     const { searchInput } = this.state;
+    this.setState({ loading: true });
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     this.setState({
       prodList: prodsData.results,
       isSearchListEmpty: false,
-      categoryId,
+      loading: false,
     });
   };
 
   handleClickSearch = async () => {
     const { searchInput, categoryId } = this.state;
+    this.setState({ loading: true });
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     this.setState({
       prodList: prodsData.results,
       isSearchListEmpty: false,
+      loading: false,
     });
   };
 
@@ -54,6 +61,7 @@ export default class Home extends Component {
       prodList,
       searchInput,
       categoryId,
+      loading,
     } = this.state;
     return (
       <div>
@@ -71,6 +79,7 @@ export default class Home extends Component {
         <ProductList
           isSearchListEmpty={ isSearchListEmpty }
           prodList={ prodList }
+          loading={ loading }
         />
       </div>
     );
