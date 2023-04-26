@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import ProductList from '../components/ProductList';
+import Categories from '../components/Categories';
 
-export default class ProductList extends Component {
+export default class Home extends Component {
   state = {
     isSearchListEmpty: true,
   };
@@ -11,13 +13,8 @@ export default class ProductList extends Component {
     return (
       <div>
         <Header />
-        {isSearchListEmpty ? (
-          <h3
-            data-testid="home-initial-message"
-          >
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </h3>
-        ) : null}
+        <Categories />
+        <ProductList isSearchListEmpty={ isSearchListEmpty } />
       </div>
     );
   }
