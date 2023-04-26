@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../components/Header';
 
 export default class ProductList extends Component {
   state = {
@@ -9,6 +10,7 @@ export default class ProductList extends Component {
     const { isSearchListEmpty } = this.state;
     return (
       <div>
+        <Header />
         {isSearchListEmpty ? (
           <h3
             data-testid="home-initial-message"
