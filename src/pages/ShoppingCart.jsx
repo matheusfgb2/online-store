@@ -8,7 +8,7 @@ export default class ShoppingCart extends Component {
   render() {
     const { isCartEmpty } = this.state;
     return (
-      <div>
+      <div className="cart-container">
         {isCartEmpty ? (
           <h3
             data-testid="shopping-cart-empty-message"

@@ -21,8 +21,9 @@ export default class Home extends Component {
 
   handleClickSearch = async () => {
     const { searchInput } = this.state;
+    const prodsData = await getProductsFromCategoryAndQuery('', searchInput);
     this.setState({
-      prodList: await getProductsFromCategoryAndQuery('', searchInput),
+      prodList: prodsData.results,
       isSearchListEmpty: false,
     });
   };

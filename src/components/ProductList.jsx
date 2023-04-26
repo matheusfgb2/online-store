@@ -11,11 +11,12 @@ export default class ProductList extends Component {
         {isSearchListEmpty ? (
           <h3
             data-testid="home-initial-message"
+            className="home-initial-message"
           >
             Digite algum termo de pesquisa ou escolha uma categoria.
           </h3>
         ) : (
-          <div className="search-result">
+          <div className="product-list-result">
             { notEmptyProdList ? (
               <ul>
                 {prodList.map((product) => (

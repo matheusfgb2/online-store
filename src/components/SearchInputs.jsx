@@ -5,7 +5,7 @@ export default class SearchInputs extends Component {
   render() {
     const { handleChangeSearch, handleClickSearch, searchInput } = this.props;
     return (
-      <div>
+      <div className="search">
         <input
           data-testid="query-input"
           type="text"
