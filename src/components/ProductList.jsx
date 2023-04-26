@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 
 export default class ProductList extends Component {
   render() {
-    const { isSearchListEmpty, prodList, loading } = this.props;
+    const { isSearchListEmpty, prodList, handleAddToCart } = this.props;
     const notEmptyProdList = prodList.length;
     return (
       <div>
@@ -19,17 +19,14 @@ export default class ProductList extends Component {
           <div className="product-list-result">
             { notEmptyProdList ? (
               <div className="products-container">
-                {loading ? <p className="loading-message">Carregando...</p> : (
-                  <ul>
-                    {prodList.map((product) => (
-                      <ProductCard
-                        key={ Math.random() }
-                        isHomePageProduct
-                        product={ product }
-                      />
-                    ))}
-                  </ul>
-                )}
+                {prodList.map((product) => (
+                  <ProductCard
+                    key={ Math.random() }
+                    isHomePageProduct
+                    product={ product }
+                    handleAddToCart={ handleAddToCart }
+                  />
+                ))}
               </div>
             ) : <h3 className="product-not-found">Nenhum produto foi encontrado</h3>}
           </div>
@@ -42,7 +39,6 @@ export default class ProductList extends Component {
 
 ProductList.propTypes = {
   isSearchListEmpty: PropTypes.bool,
-  loading: PropTypes.bool,
   prodList: PropTypes.arrayOf(
     PropTypes.shape({
       price: PropTypes.number,

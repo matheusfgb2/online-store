@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import ProductList from '../components/ProductList';
 import Categories from '../components/Categories';
 import SearchInputs from '../components/SearchInputs';
+import Loading from '../components/Loading';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class Home extends Component {
@@ -13,12 +14,13 @@ export default class Home extends Component {
     prodList: [],
     searchInput: '',
     categoryId: '',
-    loading: false,
+    loading: true,
   };
 
   async componentDidMount() {
     this.setState({
       categories: await getCategories(),
+      loading: false,
     });
   }
 
@@ -54,6 +56,15 @@ export default class Home extends Component {
     });
   };
 
+  handleAddToCart = ({ target }) => {
+    const prodId = target.value;
+    const { prodList } = this.state;
+    const currCartLS = JSON.parse(localStorage.getItem('cart-items')) || [];
+    const cartProduct = prodList.find(({ id }) => id === prodId);
+    const cartProducts = [...currCartLS, cartProduct];
+    localStorage.setItem('cart-items', JSON.stringify(cartProducts));
+  };
+
   render() {
     const {
       isSearchListEmpty,
@@ -63,9 +74,14 @@ export default class Home extends Component {
       categoryId,
       loading,
     } = this.state;
+
+    if (loading) {
+      return (<Loading />);
+    }
+
     return (
-      <div>
-        <Header />
+      <div className="home-page">
+        <Header isHome />
         <Categories
           categories={ categories }
           handleChangeCategory={ this.handleChangeCategory }
@@ -79,7 +95,7 @@ export default class Home extends Component {
         <ProductList
           isSearchListEmpty={ isSearchListEmpty }
           prodList={ prodList }
-          loading={ loading }
+          handleAddToCart={ this.handleAddToCart }
         />
       </div>
     );
