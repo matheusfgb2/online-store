@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 export default class Categories extends Component {
   render() {
-    const { categories } = this.props;
+    const { categories, handleChangeCategory, category } = this.props;
     return (
       <div className="categories-container">
         <h2>Categorias</h2>
@@ -13,7 +13,14 @@ export default class Categories extends Component {
             key={ Math.random() }
             htmlFor={ id }
           >
-            <input type="radio" name="categories" id={ id } />
+            <input
+              type="radio"
+              name="category"
+              id={ id }
+              value={ id }
+              checked={ category === id }
+              onChange={ handleChangeCategory }
+            />
             {name}
           </label>
         ))}
@@ -27,4 +34,5 @@ Categories.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  handleChangeCategory: PropTypes.func,
 }.isRequired;

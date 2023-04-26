@@ -4,14 +4,22 @@ import Header from '../components/Header';
 import ProductList from '../components/ProductList';
 import Categories from '../components/Categories';
 import SearchInputs from '../components/SearchInputs';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class Home extends Component {
   state = {
     isSearchListEmpty: true,
+    categories: [],
     prodList: [],
     searchInput: '',
+    categoryId: '',
   };
+
+  async componentDidMount() {
+    this.setState({
+      categories: await getCategories(),
+    });
+  }
 
   handleChangeSearch = ({ target: { name, value } }) => {
     this.setState({
@@ -19,9 +27,20 @@ export default class Home extends Component {
     });
   };
 
-  handleClickSearch = async () => {
+  handleChangeCategory = async ({ target }) => {
+    const categoryId = target.id;
     const { searchInput } = this.state;
-    const prodsData = await getProductsFromCategoryAndQuery('', searchInput);
+    const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
+    this.setState({
+      prodList: prodsData.results,
+      isSearchListEmpty: false,
+      categoryId,
+    });
+  };
+
+  handleClickSearch = async () => {
+    const { searchInput, categoryId } = this.state;
+    const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     this.setState({
       prodList: prodsData.results,
       isSearchListEmpty: false,
@@ -29,18 +48,30 @@ export default class Home extends Component {
   };
 
   render() {
-    const { isSearchListEmpty, prodList, searchInput } = this.state;
-    const { categories } = this.props;
+    const {
+      isSearchListEmpty,
+      categories,
+      prodList,
+      searchInput,
+      categoryId,
+    } = this.state;
     return (
       <div>
         <Header />
-        <Categories categories={ categories } />
+        <Categories
+          categories={ categories }
+          handleChangeCategory={ this.handleChangeCategory }
+          category={ categoryId }
+        />
         <SearchInputs
           handleChangeSearch={ this.handleChangeSearch }
           handleClickSearch={ this.handleClickSearch }
           searchInput={ searchInput }
         />
-        <ProductList isSearchListEmpty={ isSearchListEmpty } prodList={ prodList } />
+        <ProductList
+          isSearchListEmpty={ isSearchListEmpty }
+          prodList={ prodList }
+        />
       </div>
     );
   }
