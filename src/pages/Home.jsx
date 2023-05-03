@@ -5,75 +5,22 @@ import ProductList from '../components/ProductList';
 import Categories from '../components/Categories';
 import SearchInputs from '../components/SearchInputs';
 import Loading from '../components/Loading';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class Home extends Component {
-  state = {
-    isSearchListEmpty: true,
-    categories: [],
-    prodList: [],
-    searchInput: '',
-    categoryId: '',
-    loading: true,
-  };
-
-  async componentDidMount() {
-    this.setState({
-      categories: await getCategories(),
-      loading: false,
-    });
-  }
-
-  handleChangeSearch = ({ target: { name, value } }) => {
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleChangeCategory = async ({ target }) => {
-    const categoryId = target.value;
-    const { searchInput } = this.state;
-    this.setState({
-      categoryId,
-      loading: true,
-    });
-    const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
-    this.setState({
-      prodList: prodsData.results,
-      isSearchListEmpty: false,
-      loading: false,
-    });
-  };
-
-  handleClickSearch = async () => {
-    const { searchInput, categoryId } = this.state;
-    this.setState({ loading: true });
-    const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
-    this.setState({
-      prodList: prodsData.results,
-      isSearchListEmpty: false,
-      loading: false,
-    });
-  };
-
-  handleAddToCart = ({ target }) => {
-    const prodId = target.value;
-    const { prodList } = this.state;
-    const currCartLS = JSON.parse(localStorage.getItem('cart-items')) || [];
-    const cartProduct = prodList.find(({ id }) => id === prodId);
-    const cartProducts = [...currCartLS, cartProduct];
-    localStorage.setItem('cart-items', JSON.stringify(cartProducts));
-  };
-
   render() {
+    const { homeStates,
+      handleChangeCategory,
+      handleChangeSearch,
+      handleClickSearch,
+      handleAddToCart } = this.props;
+
     const {
-      isSearchListEmpty,
+      didSearch,
       categories,
       prodList,
       searchInput,
       categoryId,
-      loading,
-    } = this.state;
+      loading } = homeStates;
 
     if (loading) {
       return (<Loading />);
@@ -84,18 +31,18 @@ export default class Home extends Component {
         <Header isHome />
         <Categories
           categories={ categories }
-          handleChangeCategory={ this.handleChangeCategory }
+          handleChangeCategory={ handleChangeCategory }
           category={ categoryId }
         />
         <SearchInputs
-          handleChangeSearch={ this.handleChangeSearch }
-          handleClickSearch={ this.handleClickSearch }
+          handleChangeSearch={ handleChangeSearch }
+          handleClickSearch={ handleClickSearch }
           searchInput={ searchInput }
         />
         <ProductList
-          isSearchListEmpty={ isSearchListEmpty }
+          didSearch={ didSearch }
           prodList={ prodList }
-          handleAddToCart={ this.handleAddToCart }
+          handleAddToCart={ handleAddToCart }
         />
       </div>
     );
@@ -103,8 +50,25 @@ export default class Home extends Component {
 }
 
 Home.propTypes = {
-  categories: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
+  homeStates: PropTypes.shape({
+    categories: PropTypes.arrayOf(
+      PropTypes.shape({
+
+      }),
+    ),
+    categoryId: PropTypes.string,
+    didSearch: PropTypes.bool,
+    loading: PropTypes.bool,
+    prodList: PropTypes.arrayOf(
+      PropTypes.shape({
+
+      }),
+    ),
+    searchInput: PropTypes.string,
   }),
+
+  handleAddToCart: PropTypes.func,
+  handleChangeCategory: PropTypes.func,
+  handleChangeSearch: PropTypes.func,
+  handleClickSearch: PropTypes.func,
 }.isRequired;

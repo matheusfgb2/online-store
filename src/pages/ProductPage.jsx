@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { getProductById } from '../services/api';
-import ProductCard from '../components/ProductCard';
+import DetailedProduct from '../components/cards/DetailedProduct';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 
@@ -22,6 +22,7 @@ export default class ProductPage extends Component {
 
   render() {
     const { product, loading } = this.state;
+    const { handleAddToCart } = this.props;
 
     if (loading) {
       return (<Loading />);
@@ -30,7 +31,10 @@ export default class ProductPage extends Component {
     return (
       <div className="product-page">
         <Header />
-        <ProductCard product={ product } />
+        <DetailedProduct
+          product={ product }
+          handleAddToCart={ handleAddToCart }
+        />
       </div>
     );
   }
@@ -42,4 +46,5 @@ ProductPage.propTypes = {
       id: PropTypes.string,
     }),
   }),
+  handleAddToCart: PropTypes.func,
 }.isRequired;

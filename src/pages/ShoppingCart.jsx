@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import ProductCard from '../components/ProductCard';
+import CartProduct from '../components/cards/CartProduct';
 
 export default class ShoppingCart extends Component {
   state = {
@@ -21,20 +21,10 @@ export default class ShoppingCart extends Component {
           </h3>
         ) : (
           cartItems
-            .reduce((acc, curr) => {
-              if (!acc.some(({ id }) => curr.id === id)) {
-                return [...acc, curr];
-              } return acc;
-            }, [])
-            .map((product) => {
-              const amount = cartItems.filter(({ id }) => product.id === id).length;
-
-              return (<ProductCard
-                key={ Math.random() }
-                product={ product }
-                amount={ amount }
-              />);
-            })
+            .map((product) => (<CartProduct
+              key={ Math.random() }
+              product={ product }
+            />))
         )}
 
       </div>

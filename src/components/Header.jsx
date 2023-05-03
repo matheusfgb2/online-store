@@ -13,7 +13,6 @@ export default class Header extends Component {
             data-testid="shopping-cart-button"
           >
             Carrinho
-
           </Link>
         )}
         {isHome ? null : (<Link to="/">Página inicial</Link>)}
