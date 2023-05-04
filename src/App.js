@@ -78,6 +78,23 @@ export default class App extends Component {
     }
   };
 
+  handleChangeProdAmount = ({ target }) => {
+    const { name: prodId, value } = target;
+    const { cartItems } = this.state;
+
+    if (value === 'X') {
+      const cartItemsWithoutItem = cartItems.filter(({ id }) => id !== prodId);
+
+      this.setState({ cartItems: cartItemsWithoutItem }, this.saveCartItemsToLS);
+    } else {
+      const item = cartItems.find(({ id }) => prodId === id);
+      if (value === '+') item.cartAmount += 1;
+      if (value === '-' && item.cartAmount > 1) item.cartAmount -= 1;
+
+      this.setState({ cartItems }, this.saveCartItemsToLS);
+    }
+  };
+
   render() {
     const {
       cartItems,
@@ -112,7 +129,13 @@ export default class App extends Component {
             />
           ) }
         />
-        <Route path="/cart" component={ ShoppingCart } />
+        <Route
+          path="/cart"
+          render={ () => (<ShoppingCart
+            cartItems={ cartItems }
+            handleChangeProdAmount={ this.handleChangeProdAmount }
+          />) }
+        />
         <Route
           path="/products/:id"
           render={ (props) => (<ProductPage

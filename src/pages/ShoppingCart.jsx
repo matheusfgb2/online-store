@@ -1,14 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import CartProduct from '../components/cards/CartProduct';
 
 export default class ShoppingCart extends Component {
-  state = {
-    cartItems: JSON.parse(localStorage.getItem('cart-items')) || [],
-  };
-
   render() {
-    const { cartItems } = this.state;
+    const { cartItems, handleChangeProdAmount } = this.props;
     const isCartEmpty = !cartItems.length;
     return (
       <div className="cart-page">
@@ -24,6 +21,7 @@ export default class ShoppingCart extends Component {
             .map((product) => (<CartProduct
               key={ Math.random() }
               product={ product }
+              handleChangeProdAmount={ handleChangeProdAmount }
             />))
         )}
 
@@ -31,3 +29,14 @@ export default class ShoppingCart extends Component {
     );
   }
 }
+
+ShoppingCart.propTypes = {
+  cartItems: PropTypes.arrayOf(PropTypes.shape({
+    cartAmount: PropTypes.number,
+    id: PropTypes.string,
+    price: PropTypes.number,
+    thumbnail: PropTypes.string,
+    title: PropTypes.string,
+  })),
+  handleChangeProdAmount: PropTypes.func,
+}.isRequired;

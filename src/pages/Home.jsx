@@ -51,17 +51,18 @@ export default class Home extends Component {
 
 Home.propTypes = {
   homeStates: PropTypes.shape({
-    categories: PropTypes.arrayOf(
-      PropTypes.shape({
-
-      }),
-    ),
+    categories: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
     categoryId: PropTypes.string,
     didSearch: PropTypes.bool,
     loading: PropTypes.bool,
     prodList: PropTypes.arrayOf(
       PropTypes.shape({
-
+        price: PropTypes.number,
+        thumbnail: PropTypes.string,
+        title: PropTypes.string,
       }),
     ),
     searchInput: PropTypes.string,
