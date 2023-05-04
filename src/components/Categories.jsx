@@ -4,9 +4,10 @@ import React, { Component } from 'react';
 export default class Categories extends Component {
   render() {
     const { categories, handleChangeCategory, category } = this.props;
+
     return (
       <div className="categories-container">
-        <h2>Categorias</h2>
+        <h3>Categorias</h3>
         {categories.map(({ id, name }) => (
           <label
             data-testid="category"

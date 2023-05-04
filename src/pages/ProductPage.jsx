@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { getProductById } from '../services/api';
-import DetailedProduct from '../components/cards/DetailedProduct';
+import ProductDetail from '../components/cards/ProductDetail';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 
@@ -31,7 +31,7 @@ export default class ProductPage extends Component {
     return (
       <div className="product-page">
         <Header />
-        <DetailedProduct
+        <ProductDetail
           product={ product }
           handleAddToCart={ handleAddToCart }
         />

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import ShoppingCart from './pages/ShoppingCart';
 import ProductPage from './pages/ProductPage';
 import { getCategories, getProductsFromCategoryAndQuery } from './services/api';
+import Checkout from './pages/Checkout';
 
 export default class App extends Component {
   state = {
@@ -82,6 +83,10 @@ export default class App extends Component {
     this.setState({ cartItems }, this.saveCartItemsToLS);
   };
 
+  clearCartItemsState = () => {
+    this.setState({ cartItems: [] });
+  };
+
   render() {
     const {
       cartItems,
@@ -103,6 +108,7 @@ export default class App extends Component {
 
     return (
       <Switch>
+
         <Route
           exact
           path="/"
@@ -116,20 +122,38 @@ export default class App extends Component {
             />
           ) }
         />
+
         <Route
           path="/cart"
-          render={ () => (<ShoppingCart
-            cartItems={ cartItems }
-            handleChangeProdAmount={ this.handleChangeProdAmount }
-          />) }
+          render={ () => (
+            <ShoppingCart
+              cartItems={ cartItems }
+              handleChangeProdAmount={ this.handleChangeProdAmount }
+            />
+          ) }
         />
+
         <Route
           path="/products/:id"
-          render={ (props) => (<ProductPage
-            { ...props }
-            handleAddToCart={ this.handleAddToCart }
-          />) }
+          render={ (props) => (
+            <ProductPage
+              { ...props }
+              handleAddToCart={ this.handleAddToCart }
+            />
+          ) }
         />
+
+        <Route
+          path="/checkout"
+          render={ (props) => (
+            <Checkout
+              { ...props }
+              cartItems={ cartItems }
+              clearCartItemsState={ this.clearCartItemsState }
+            />
+          ) }
+        />
+
       </Switch>
     );
   }

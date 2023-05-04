@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import HomeProduct from './cards/HomeProduct';
+import ProductHome from './cards/ProductHome';
 
 export default class ProductList extends Component {
   render() {
@@ -11,11 +11,11 @@ export default class ProductList extends Component {
         {didSearch ? (
           <div className="product-list-result">
             { emptyProdList ? (
-              <h3 className="product-not-found">Nenhum produto foi encontrado</h3>
+              <h4 className="product-not-found">Nenhum produto foi encontrado</h4>
             ) : (
               <div className="products-container">
                 {prodList.map((product) => (
-                  <HomeProduct
+                  <ProductHome
                     key={ Math.random() }
                     product={ product }
                     handleAddToCart={ handleAddToCart }
@@ -25,12 +25,12 @@ export default class ProductList extends Component {
             )}
           </div>
         ) : (
-          <h3
+          <h4
             data-testid="home-initial-message"
             className="home-initial-message"
           >
             Digite algum termo de pesquisa ou escolha uma categoria.
-          </h3>
+          </h4>
         )}
 
       </div>

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-export default class ProductCartCard extends Component {
+export default class ProductCart extends Component {
   render() {
     const { product, handleChangeProdAmount } = this.props;
     const { title, thumbnail, price, cartAmount, id } = product;
@@ -21,7 +21,6 @@ export default class ProductCartCard extends Component {
             onClick={ handleChangeProdAmount }
           >
             X
-
           </button>
           <button
             data-testid="product-decrease-quantity"
@@ -31,7 +30,6 @@ export default class ProductCartCard extends Component {
             onClick={ handleChangeProdAmount }
           >
             -
-
           </button>
           <p
             data-testid="shopping-cart-product-quantity"
@@ -45,7 +43,6 @@ export default class ProductCartCard extends Component {
             onClick={ handleChangeProdAmount }
           >
             +
-
           </button>
         </div>
       </div>
@@ -53,7 +50,7 @@ export default class ProductCartCard extends Component {
   }
 }
 
-ProductCartCard.propTypes = {
+ProductCart.propTypes = {
   product: PropTypes.shape({
     cartAmount: PropTypes.number,
     id: PropTypes.string,

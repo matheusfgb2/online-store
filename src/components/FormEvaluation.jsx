@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-export default class EvaluationForm extends Component {
+export default class FormEvaluation extends Component {
   state = {
     email: '',
     text: '',
@@ -17,36 +17,37 @@ export default class EvaluationForm extends Component {
     return ratings;
   };
 
-  handleChangeForm = ({ target }) => {
+  handleChangeEvalForm = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: Number(value) ? Number(value) : value });
   };
 
-  handleValidateForm = (e) => {
+  handleValidateEvalForm = (e) => {
     e.preventDefault();
     const { email, rating } = this.state;
 
     const emailRegex = /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/;
     const validations = [emailRegex.test(email), rating > 0];
 
-    const isFormValidated = validations.every((validation) => validation === true);
-    this.setState({ isFormValidated }, () => (isFormValidated ? this.saveForm() : null));
+    const isFormValidated = validations.every((validation) => validation);
+    this.setState({ isFormValidated }, () => (
+      isFormValidated ? this.saveEvalForm() : null
+    ));
   };
 
-  saveForm = () => {
+  saveEvalForm = () => {
     const { email, text, rating } = this.state;
-    const { prodId, updateFormsState } = this.props;
+    const { prodId, updateEvaluationsState } = this.props;
     const form = { email, text, rating };
-    this.saveFormIntoLS(prodId, form);
+    this.saveEvalFormIntoLS(prodId, form);
     this.setState({ email: '', text: '', rating: 0 });
-    updateFormsState();
+    updateEvaluationsState();
   };
 
-  saveFormIntoLS = (prodId, form) => {
-    const { getFormsFromLS } = this.props;
-    const prevForms = getFormsFromLS();
-    if (prevForms !== []) {
-      form = [...prevForms, form];
+  saveEvalFormIntoLS = (prodId, form) => {
+    const { evaluations } = this.props;
+    if (evaluations !== []) {
+      form = [...evaluations, form];
       localStorage.setItem(prodId, JSON.stringify(form));
     } else {
       localStorage.setItem(prodId, JSON.stringify([form]));
@@ -68,7 +69,7 @@ export default class EvaluationForm extends Component {
           name="email"
           data-testid="product-detail-email"
           value={ email }
-          onChange={ this.handleChangeForm }
+          onChange={ this.handleChangeEvalForm }
         />
 
         {radioButtons.map((currRating) => (
@@ -83,7 +84,7 @@ export default class EvaluationForm extends Component {
               id={ `${currRating}-rating` }
               value={ currRating }
               checked={ currRating === rating }
-              onChange={ this.handleChangeForm }
+              onChange={ this.handleChangeEvalForm }
             />
             {currRating}
           </label>
@@ -96,12 +97,12 @@ export default class EvaluationForm extends Component {
           rows="5"
           data-testid="product-detail-evaluation"
           value={ text }
-          onChange={ this.handleChangeForm }
+          onChange={ this.handleChangeEvalForm }
         />
 
         <button
           data-testid="submit-review-btn"
-          onClick={ this.handleValidateForm }
+          onClick={ this.handleValidateEvalForm }
         >
           Enviar
         </button>
@@ -115,8 +116,7 @@ export default class EvaluationForm extends Component {
   }
 }
 
-EvaluationForm.propTypes = {
-  getFormsFromLS: PropTypes.func,
-  updateFormsState: PropTypes.func,
+FormEvaluation.propTypes = {
+  updateEvaluationsState: PropTypes.func,
   prodId: PropTypes.string,
 }.isRequired;

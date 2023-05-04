@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Header from '../components/Header';
-import CartProduct from '../components/cards/CartProduct';
+import ProductCart from '../components/cards/ProductCart';
 
 export default class ShoppingCart extends Component {
   render() {
@@ -17,12 +18,21 @@ export default class ShoppingCart extends Component {
             Seu carrinho está vazio
           </h3>
         ) : (
-          cartItems
-            .map((product) => (<CartProduct
-              key={ Math.random() }
-              product={ product }
-              handleChangeProdAmount={ handleChangeProdAmount }
-            />))
+          <div className="cart-products-container">
+            {cartItems
+              .map((product) => (<ProductCart
+                key={ Math.random() }
+                product={ product }
+                handleChangeProdAmount={ handleChangeProdAmount }
+              />))}
+
+            <Link
+              to="/checkout"
+              data-testid="checkout-products"
+            >
+              Finalizar compra
+            </Link>
+          </div>
         )}
 
       </div>

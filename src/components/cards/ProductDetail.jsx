@@ -1,24 +1,24 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import EvaluationForm from '../EvaluationForm';
+import FormEvaluation from '../FormEvaluation';
 import Evaluations from '../Evaluations';
 
-export default class DetailedProduct extends Component {
+export default class ProductDetail extends Component {
   state = {
-    forms: [],
+    evaluations: [],
   };
 
   componentDidMount() {
-    this.setState({ forms: this.getFormsFromLS() });
+    this.setState({ evaluations: this.getEvaluationsFromLS() });
   }
 
-  getFormsFromLS = () => {
-    const { product: { id } } = this.props;
-    return JSON.parse(localStorage.getItem(id)) || [];
+  updateEvaluationsState = () => {
+    this.setState({ evaluations: this.getEvaluationsFromLS() });
   };
 
-  updateFormsState = () => {
-    this.setState({ forms: this.getFormsFromLS() });
+  getEvaluationsFromLS = () => {
+    const { product: { id } } = this.props;
+    return JSON.parse(localStorage.getItem(id)) || [];
   };
 
   render() {
@@ -32,10 +32,10 @@ export default class DetailedProduct extends Component {
         },
       handleAddToCart } = this.props;
 
-    const { forms: evaluations } = this.state;
+    const { evaluations } = this.state;
 
     return (
-      <>
+      <div className="product-detail-container">
         <div className="product-detail-card">
           <img
             data-testid="product-detail-image"
@@ -52,21 +52,22 @@ export default class DetailedProduct extends Component {
             Adicionar ao carrinho
           </button>
         </div>
+
         <div className="evaluation-container">
-          <EvaluationForm
+          <FormEvaluation
             prodId={ id }
-            getFormsFromLS={ this.getFormsFromLS }
-            updateFormsState={ this.updateFormsState }
+            evaluations={ evaluations }
+            updateEvaluationsState={ this.updateEvaluationsState }
           />
 
           <Evaluations evaluations={ evaluations } />
         </div>
-      </>
+      </div>
     );
   }
 }
 
-DetailedProduct.propTypes = {
+ProductDetail.propTypes = {
   product: PropTypes.shape({
     price: PropTypes.number,
     thumbnail: PropTypes.string,
