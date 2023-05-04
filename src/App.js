@@ -18,9 +18,7 @@ export default class App extends Component {
   };
 
   async componentDidMount() {
-    this.setState({
-      categories: await getCategories(),
-    });
+    this.setState({ categories: await getCategories() });
   }
 
   saveCartItemsToLS = () => {
@@ -28,71 +26,60 @@ export default class App extends Component {
     localStorage.setItem('cart-items', JSON.stringify(cartItems));
   };
 
-  handleChangeSearch = ({ target: { name, value } }) => {
-    this.setState({
-      [name]: value,
-    });
+  handleChangeSearch = ({ target }) => {
+    const searchInput = target.value;
+    this.setState({ searchInput });
   };
 
   handleChangeCategory = async ({ target }) => {
     const categoryId = target.value;
     const { searchInput } = this.state;
-    this.setState({
-      categoryId,
-      loading: true,
-    });
+    this.setState({ categoryId, loading: true });
+
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
-    this.setState({
-      prodList: prodsData.results,
-      didSearch: true,
-      loading: false,
-    });
+    const prodList = prodsData.results;
+    this.setState({ prodList, didSearch: true, loading: false });
   };
 
   handleClickSearch = async () => {
     const { searchInput, categoryId } = this.state;
     this.setState({ loading: true });
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
-    this.setState({
-      prodList: prodsData.results,
-      didSearch: true,
-      loading: false,
-    });
+    const prodList = prodsData.results;
+    this.setState({ prodList, didSearch: true, loading: false });
   };
 
   handleAddToCart = ({ target }) => {
     const prodId = target.value;
     const { prodList, cartItems } = this.state;
-    console.log(prodId);
-    const currProduct = prodList.find(({ id }) => id === prodId);
-    const equalCartProduct = cartItems.find(({ id }) => currProduct.id === id);
+    const product = prodList.find(({ id }) => id === prodId);
+    const sameProdInCart = cartItems.find(({ id }) => product.id === id);
 
-    if (equalCartProduct) {
-      equalCartProduct.cartAmount += 1;
+    if (sameProdInCart) {
+      sameProdInCart.cartAmount += 1;
       this.saveCartItemsToLS();
     } else {
-      currProduct.cartAmount = 1;
+      product.cartAmount = 1;
       this.setState((prev) => ({
-        cartItems: [...prev.cartItems, currProduct],
+        cartItems: [...prev.cartItems, product],
       }), this.saveCartItemsToLS);
     }
   };
 
   handleChangeProdAmount = ({ target }) => {
     const { name: prodId, value } = target;
-    const { cartItems } = this.state;
+    let { cartItems } = this.state;
 
     if (value === 'X') {
-      const cartItemsWithoutItem = cartItems.filter(({ id }) => id !== prodId);
-
-      this.setState({ cartItems: cartItemsWithoutItem }, this.saveCartItemsToLS);
+      cartItems = cartItems.filter(({ id }) => id !== prodId);
     } else {
-      const item = cartItems.find(({ id }) => prodId === id);
-      if (value === '+') item.cartAmount += 1;
-      if (value === '-' && item.cartAmount > 1) item.cartAmount -= 1;
+      const product = cartItems.find(({ id }) => prodId === id);
 
-      this.setState({ cartItems }, this.saveCartItemsToLS);
+      if (value === '+') product.cartAmount += 1;
+      if (value === '-' && product.cartAmount > 1) product.cartAmount -= 1;
     }
+
+    this.setState({ cartItems }, this.saveCartItemsToLS);
   };
 
   render() {

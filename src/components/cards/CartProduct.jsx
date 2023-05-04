@@ -13,38 +13,41 @@ export default class ProductCartCard extends Component {
         />
         <h3 data-testid="shopping-cart-product-name">{title}</h3>
         <p data-testid="product-detail-price">{`R$${price}`}</p>
-        <button
-          data-testid="remove-product"
-          name={ id }
-          value="X"
-          onClick={ handleChangeProdAmount }
-        >
-          X
+        <div className="product-amount-container">
+          <button
+            data-testid="remove-product"
+            name={ id }
+            value="X"
+            onClick={ handleChangeProdAmount }
+          >
+            X
 
-        </button>
-        <button
-          data-testid="product-decrease-quantity"
-          name={ id }
-          value="-"
-          onClick={ handleChangeProdAmount }
-        >
-          -
+          </button>
+          <button
+            data-testid="product-decrease-quantity"
+            disabled={ cartAmount < 2 }
+            name={ id }
+            value="-"
+            onClick={ handleChangeProdAmount }
+          >
+            -
 
-        </button>
-        <p
-          data-testid="shopping-cart-product-quantity"
-        >
-          {`Quantidade: ${cartAmount}`}
-        </p>
-        <button
-          data-testid="product-increase-quantity"
-          name={ id }
-          value="+"
-          onClick={ handleChangeProdAmount }
-        >
-          +
+          </button>
+          <p
+            data-testid="shopping-cart-product-quantity"
+          >
+            {`Quantidade: ${cartAmount}`}
+          </p>
+          <button
+            data-testid="product-increase-quantity"
+            name={ id }
+            value="+"
+            onClick={ handleChangeProdAmount }
+          >
+            +
 
-        </button>
+          </button>
+        </div>
       </div>
     );
   }
