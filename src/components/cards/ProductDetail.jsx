@@ -4,9 +4,7 @@ import FormEvaluation from '../FormEvaluation';
 import Evaluations from '../Evaluations';
 
 export default class ProductDetail extends Component {
-  state = {
-    evaluations: [],
-  };
+  state = { evaluations: [] };
 
   componentDidMount() {
     this.setState({ evaluations: this.getEvaluationsFromLS() });
@@ -21,6 +19,12 @@ export default class ProductDetail extends Component {
     return JSON.parse(localStorage.getItem(id)) || [];
   };
 
+  getProductAddress = () => {
+    const { product: { seller_address: { city, state, country } } } = this.props;
+    state.id = state.id.replace('BR-', '');
+    return `${city.name}, ${state.id} - ${country.name}`;
+  };
+
   render() {
     const {
       product:
@@ -29,10 +33,13 @@ export default class ProductDetail extends Component {
           thumbnail,
           price,
           id,
+          sale_terms: saleTerms,
         },
       handleAddToCart } = this.props;
 
     const { evaluations } = this.state;
+
+    const fullAddress = this.getProductAddress();
 
     return (
       <div className="product-detail-container">
@@ -43,6 +50,13 @@ export default class ProductDetail extends Component {
             alt={ title }
           />
           <h3 data-testid="product-detail-name">{title}</h3>
+
+          {saleTerms.map(({ name, value_name: value }) => (
+            <p key={ Math.random() }>{`${name}: ${value}`}</p>
+          ))}
+
+          <p>{`Local: ${fullAddress}`}</p>
+
           <p data-testid="product-detail-price">{`R$${price}`}</p>
           <button
             data-testid="product-detail-add-to-cart"

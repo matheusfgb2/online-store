@@ -6,18 +6,12 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 
 export default class ProductPage extends Component {
-  state = {
-    product: {},
-    loading: true,
-  };
+  state = { product: {}, loading: true };
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const product = await getProductById(id);
-    this.setState({
-      product,
-      loading: false,
-    });
+    this.setState({ product, loading: false });
   }
 
   render() {

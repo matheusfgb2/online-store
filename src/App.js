@@ -45,6 +45,7 @@ export default class App extends Component {
   handleClickSearch = async () => {
     const { searchInput, categoryId } = this.state;
     this.setState({ loading: true });
+
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     const prodList = prodsData.results;
     this.setState({ prodList, didSearch: true, loading: false });
