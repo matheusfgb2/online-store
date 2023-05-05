@@ -34,6 +34,7 @@ export default class ProductDetail extends Component {
           thumbnail,
           price,
           id,
+          attributes,
           sale_terms: saleTerms,
         },
       handleAddToCart } = this.props;
@@ -53,9 +54,21 @@ export default class ProductDetail extends Component {
           />
           <h3 data-testid="product-detail-name">{title}</h3>
 
+          <hr />
+
+          <h4>Especificações</h4>
+          {attributes.map(({ name, value_name: value }) => (
+            <p key={ Math.random() }>{`${name}: ${value}`}</p>
+          ))}
+
+          <hr />
+
+          <h4>Garantia</h4>
           {saleTerms.map(({ name, value_name: value }) => (
             <p key={ Math.random() }>{`${name}: ${value}`}</p>
           ))}
+
+          <hr />
 
           <p>{`Local: ${fullAddress}`}</p>
 

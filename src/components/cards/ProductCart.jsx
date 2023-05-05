@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductCart extends Component {
@@ -10,16 +11,18 @@ export default class ProductCart extends Component {
     const prodFinalPrice = fixPriceDisplay((price * cartAmount).toFixed(2));
     return (
       <div className="product-cart-card">
-        <img
-          src={ thumbnail }
-          alt={ title }
-        />
-        <h3 data-testid="shopping-cart-product-name">{title}</h3>
-        <p
-          data-testid="product-detail-price"
-        >
-          {`R$ ${prodFinalPrice}`}
-        </p>
+        <Link to={ `/products/${id}` }>
+          <img
+            src={ thumbnail }
+            alt={ title }
+          />
+          <h3 data-testid="shopping-cart-product-name">{title}</h3>
+          <p
+            data-testid="product-detail-price"
+          >
+            {`R$ ${prodFinalPrice}`}
+          </p>
+        </Link>
         <div className="product-amount-container">
           <button
             data-testid="remove-product"
