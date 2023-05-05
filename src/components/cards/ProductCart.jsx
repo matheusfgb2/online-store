@@ -12,7 +12,11 @@ export default class ProductCart extends Component {
           alt={ title }
         />
         <h3 data-testid="shopping-cart-product-name">{title}</h3>
-        <p data-testid="product-detail-price">{`R$${price}`}</p>
+        <p
+          data-testid="product-detail-price"
+        >
+          {`R$ ${(price * cartAmount).toFixed(2)}`}
+        </p>
         <div className="product-amount-container">
           <button
             data-testid="remove-product"

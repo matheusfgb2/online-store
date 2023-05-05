@@ -21,7 +21,7 @@ export default class ProductHome extends Component {
               alt={ title }
             />
             <h3>{title}</h3>
-            <p>{`R$${price}`}</p>
+            <p>{`R$ ${price.toFixed(2)}`}</p>
           </li>
         </Link>
         <button

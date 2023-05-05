@@ -57,7 +57,7 @@ export default class ProductDetail extends Component {
 
           <p>{`Local: ${fullAddress}`}</p>
 
-          <p data-testid="product-detail-price">{`R$${price}`}</p>
+          <p data-testid="product-detail-price">{`R$ ${price.toFixed(2)}`}</p>
           <button
             data-testid="product-detail-add-to-cart"
             value={ id }

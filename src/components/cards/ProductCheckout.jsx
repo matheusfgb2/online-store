@@ -5,7 +5,7 @@ export default class ProductCheckout extends Component {
   render() {
     const { product: { title, cartAmount, price, thumbnail } } = this.props;
 
-    const prodFinalPrice = price * cartAmount;
+    const prodFinalPrice = (price * cartAmount).toFixed(2);
     const areMultipleProds = cartAmount > 1;
 
     return (
@@ -14,8 +14,8 @@ export default class ProductCheckout extends Component {
         <h4>{title}</h4>
         <p>{`Quantidade: ${cartAmount}`}</p>
         <p>
-          {`Total: R$${prodFinalPrice} ${
-            areMultipleProds ? `[unid.: R$${price}]` : ''
+          {`Total: R$ ${prodFinalPrice} ${
+            areMultipleProds ? `[unid.: R$ ${price.toFixed(2)}]` : ''
           }`}
 
         </p>
