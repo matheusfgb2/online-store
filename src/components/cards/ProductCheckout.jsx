@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductCheckout extends Component {
   render() {
     const { product: { title, cartAmount, price, thumbnail } } = this.props;
 
-    const prodFinalPrice = (price * cartAmount).toFixed(2);
+    const fixedPrice = fixPriceDisplay(price.toFixed(2));
+    const prodFinalPrice = fixPriceDisplay((price * cartAmount).toFixed(2));
+
     const areMultipleProds = cartAmount > 1;
 
     return (
@@ -15,7 +18,7 @@ export default class ProductCheckout extends Component {
         <p>{`Quantidade: ${cartAmount}`}</p>
         <p>
           {`Total: R$ ${prodFinalPrice} ${
-            areMultipleProds ? `[unid.: R$ ${price.toFixed(2)}]` : ''
+            areMultipleProds ? `[unid.: R$ ${fixedPrice}]` : ''
           }`}
 
         </p>

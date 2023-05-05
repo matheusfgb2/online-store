@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductCart extends Component {
   render() {
     const { product, handleChangeProdAmount } = this.props;
     const { title, thumbnail, price, cartAmount, id } = product;
+
+    const prodFinalPrice = fixPriceDisplay((price * cartAmount).toFixed(2));
     return (
       <div className="product-cart-card">
         <img
@@ -15,7 +18,7 @@ export default class ProductCart extends Component {
         <p
           data-testid="product-detail-price"
         >
-          {`R$ ${(price * cartAmount).toFixed(2)}`}
+          {`R$ ${prodFinalPrice}`}
         </p>
         <div className="product-amount-container">
           <button

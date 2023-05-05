@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductHome extends Component {
   render() {
     const { product, handleAddToCart } = this.props;
     const { title, thumbnail, price, id } = product;
+
+    const fixedPrice = fixPriceDisplay(price.toFixed(2));
 
     return (
       <div className="product-home-card">
@@ -21,7 +24,7 @@ export default class ProductHome extends Component {
               alt={ title }
             />
             <h3>{title}</h3>
-            <p>{`R$ ${price.toFixed(2)}`}</p>
+            <p>{`R$ ${fixedPrice}`}</p>
           </li>
         </Link>
         <button
