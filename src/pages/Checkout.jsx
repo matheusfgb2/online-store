@@ -6,10 +6,10 @@ import FormCheckout from '../components/FormCheckout';
 
 export default class Checkout extends Component {
   render() {
-    const { cartItems, history, clearCartItemsState } = this.props;
+    const { cartItems, cartItemsAmount, history, clearCartItemsState } = this.props;
     return (
       <div className="checkout-page">
-        <Header />
+        <Header cartItemsAmount={ cartItemsAmount } />
 
         {cartItems.map((product) => (
           <ProductCheckout key={ Math.random() } product={ product } />
@@ -28,6 +28,7 @@ Checkout.propTypes = {
     thumbnail: PropTypes.string,
     title: PropTypes.string,
   })),
+  cartItemsAmount: PropTypes.number,
   clearCartItemsState: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func,

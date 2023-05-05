@@ -16,15 +16,27 @@ export default class App extends Component {
     searchInput: '',
     didSearch: false,
     loading: false,
+    cartItemsAmount: localStorage.getItem('cart-amount') || 0,
   };
 
   async componentDidMount() {
     this.setState({ categories: await getCategories() });
   }
 
-  saveCartItemsToLS = () => {
+  saveCartItemsIntoLS = () => {
     const { cartItems } = this.state;
     localStorage.setItem('cart-items', JSON.stringify(cartItems));
+    this.saveCartItemsAmountIntoLS();
+  };
+
+  saveCartItemsAmountIntoLS = () => {
+    const { cartItems } = this.state;
+    const cartItemsAmount = cartItems
+      .reduce((total, { cartAmount }) => total + cartAmount, 0);
+
+    localStorage.setItem('cart-amount', cartItemsAmount);
+
+    this.setState({ cartItemsAmount });
   };
 
   handleChangeSearch = ({ target }) => {
@@ -59,12 +71,12 @@ export default class App extends Component {
 
     if (sameProdInCart) {
       sameProdInCart.cartAmount += 1;
-      this.saveCartItemsToLS();
+      this.saveCartItemsIntoLS();
     } else {
       product.cartAmount = 1;
       this.setState((prev) => ({
         cartItems: [...prev.cartItems, product],
-      }), this.saveCartItemsToLS);
+      }), this.saveCartItemsIntoLS);
     }
   };
 
@@ -81,7 +93,7 @@ export default class App extends Component {
       if (value === '-' && product.cartAmount > 1) product.cartAmount -= 1;
     }
 
-    this.setState({ cartItems }, this.saveCartItemsToLS);
+    this.setState({ cartItems }, this.saveCartItemsIntoLS);
   };
 
   clearCartItemsState = () => {
@@ -96,7 +108,8 @@ export default class App extends Component {
       categoryId,
       searchInput,
       didSearch,
-      loading } = this.state;
+      loading,
+      cartItemsAmount } = this.state;
 
     const homeStates = {
       cartItems,
@@ -105,7 +118,8 @@ export default class App extends Component {
       categoryId,
       searchInput,
       didSearch,
-      loading };
+      loading,
+      cartItemsAmount };
 
     return (
       <Switch>
@@ -129,6 +143,7 @@ export default class App extends Component {
           render={ () => (
             <ShoppingCart
               cartItems={ cartItems }
+              cartItemsAmount={ cartItemsAmount }
               handleChangeProdAmount={ this.handleChangeProdAmount }
             />
           ) }
@@ -139,6 +154,7 @@ export default class App extends Component {
           render={ (props) => (
             <ProductPage
               { ...props }
+              cartItemsAmount={ cartItemsAmount }
               handleAddToCart={ this.handleAddToCart }
             />
           ) }
@@ -150,6 +166,7 @@ export default class App extends Component {
             <Checkout
               { ...props }
               cartItems={ cartItems }
+              cartItemsAmount={ cartItemsAmount }
               clearCartItemsState={ this.clearCartItemsState }
             />
           ) }

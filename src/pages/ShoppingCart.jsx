@@ -6,11 +6,11 @@ import ProductCart from '../components/cards/ProductCart';
 
 export default class ShoppingCart extends Component {
   render() {
-    const { cartItems, handleChangeProdAmount } = this.props;
+    const { cartItems, cartItemsAmount, handleChangeProdAmount } = this.props;
     const isCartEmpty = !cartItems.length;
     return (
       <div className="cart-page">
-        <Header isCart />
+        <Header cartItemsAmount={ cartItemsAmount } />
         {isCartEmpty ? (
           <h3
             data-testid="shopping-cart-empty-message"
@@ -48,5 +48,6 @@ ShoppingCart.propTypes = {
     thumbnail: PropTypes.string,
     title: PropTypes.string,
   })),
+  cartItemsAmount: PropTypes.number,
   handleChangeProdAmount: PropTypes.func,
 }.isRequired;

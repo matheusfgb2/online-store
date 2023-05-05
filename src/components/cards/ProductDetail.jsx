@@ -52,20 +52,27 @@ export default class ProductDetail extends Component {
             src={ thumbnail }
             alt={ title }
           />
-          <h3 data-testid="product-detail-name">{title}</h3>
+          <h2 data-testid="product-detail-name">{title}</h2>
+          <h3>{`Valor: R$ ${fixedPrice}`}</h3>
 
           <hr />
 
-          <h4>Especificações</h4>
+          <h3>Especificações</h3>
           {attributes.map(({ name, value_name: value }) => (
-            <p key={ Math.random() }>{`${name}: ${value}`}</p>
+            <p key={ Math.random() }>
+              <b>{`${name}: `}</b>
+              {value}
+            </p>
           ))}
 
           <hr />
 
-          <h4>Garantia</h4>
+          <h3>Garantia</h3>
           {saleTerms.map(({ name, value_name: value }) => (
-            <p key={ Math.random() }>{`${name}: ${value}`}</p>
+            <p key={ Math.random() }>
+              <b>{`${name}: `}</b>
+              {value}
+            </p>
           ))}
 
           <hr />
@@ -80,7 +87,7 @@ export default class ProductDetail extends Component {
             {`R$ ${price}`}
 
           </p>
-          <p>{`R$ ${fixedPrice}`}</p>
+
           <button
             data-testid="product-detail-add-to-cart"
             value={ id }

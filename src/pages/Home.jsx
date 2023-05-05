@@ -20,7 +20,8 @@ export default class Home extends Component {
       prodList,
       searchInput,
       categoryId,
-      loading } = homeStates;
+      loading,
+      cartItemsAmount } = homeStates;
 
     if (loading) {
       return (<Loading />);
@@ -28,7 +29,7 @@ export default class Home extends Component {
 
     return (
       <div className="home-page">
-        <Header isHome />
+        <Header cartItemsAmount={ cartItemsAmount } />
         <Categories
           categories={ categories }
           handleChangeCategory={ handleChangeCategory }
@@ -55,6 +56,7 @@ Home.propTypes = {
       id: PropTypes.string,
       name: PropTypes.string,
     }),
+    cartItemsAmount: PropTypes.number,
     categoryId: PropTypes.string,
     didSearch: PropTypes.bool,
     loading: PropTypes.bool,
