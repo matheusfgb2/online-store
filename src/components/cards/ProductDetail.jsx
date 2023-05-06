@@ -36,8 +36,10 @@ export default class ProductDetail extends Component {
           id,
           attributes,
           sale_terms: saleTerms,
+          shipping,
         },
       handleAddToCart } = this.props;
+    const { free_shipping: freeShipping } = shipping;
 
     const { evaluations } = this.state;
 
@@ -54,7 +56,9 @@ export default class ProductDetail extends Component {
           />
           <h2 data-testid="product-detail-name">{title}</h2>
           <h3>{`Valor: R$ ${fixedPrice}`}</h3>
-
+          {freeShipping ? (
+            <p>Frete Grátis</p>
+          ) : null}
           <hr />
 
           <h3>Especificações</h3>

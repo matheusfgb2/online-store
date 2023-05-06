@@ -5,8 +5,15 @@ import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductHome extends Component {
   render() {
-    const { product, handleAddToCart } = this.props;
-    const { title, thumbnail, price, id } = product;
+    const {
+      product: {
+        title,
+        thumbnail,
+        price,
+        id,
+        shipping },
+      handleAddToCart } = this.props;
+    const { free_shipping: freeShipping } = shipping;
 
     const fixedPrice = fixPriceDisplay(price.toFixed(2));
 
@@ -24,7 +31,12 @@ export default class ProductHome extends Component {
               alt={ title }
             />
             <h3>{title}</h3>
-            <p>{`R$ ${fixedPrice}`}</p>
+            <p>
+              <span>{`R$ ${fixedPrice}`}</span>
+              {freeShipping ? (
+                <span data-testid="free-shipping"> (Frete Grátis)</span>
+              ) : null}
+            </p>
           </li>
         </Link>
         <button
