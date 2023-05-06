@@ -6,9 +6,17 @@ import { fixPriceDisplay } from '../../services/helpers';
 export default class ProductCart extends Component {
   render() {
     const { product, handleChangeProdAmount } = this.props;
-    const { title, thumbnail, price, cartAmount, id } = product;
+
+    const { title,
+      thumbnail,
+      price,
+      cartAmount,
+      id,
+      available_quantity: available,
+    } = product;
 
     const prodFinalPrice = fixPriceDisplay((price * cartAmount).toFixed(2));
+
     return (
       <div className="product-cart-card">
         <Link to={ `/products/${id}` }>
@@ -48,6 +56,7 @@ export default class ProductCart extends Component {
           </p>
           <button
             data-testid="product-increase-quantity"
+            disabled={ cartAmount === available }
             name={ id }
             value="+"
             onClick={ handleChangeProdAmount }
