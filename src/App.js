@@ -56,7 +56,7 @@ export default class App extends Component {
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     const prodList = prodsData.results;
     this.sortProdsByPrice(prodList);
-    this.setState({ didSearch: true, loading: false, priceFilter: '' });
+    this.setState({ didSearch: true, loading: false });
   };
 
   handleClickSearch = async () => {

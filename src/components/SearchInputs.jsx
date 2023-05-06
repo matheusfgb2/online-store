@@ -29,7 +29,7 @@ export default class SearchInputs extends Component {
 
         <select
           name="priceFilter"
-          defaultValue={ priceFilter }
+          value={ priceFilter }
           onChange={ handleChangeSearch }
         >
           <option value="" disabled>(Ordenar por preço)</option>
