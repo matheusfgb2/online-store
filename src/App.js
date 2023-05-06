@@ -14,6 +14,7 @@ export default class App extends Component {
     prodList: [],
     categoryId: '',
     searchInput: '',
+    priceFilter: '',
     didSearch: false,
     loading: false,
     cartItemsAmount: localStorage.getItem('cart-amount') || 0,
@@ -40,8 +41,11 @@ export default class App extends Component {
   };
 
   handleChangeSearch = ({ target }) => {
-    const searchInput = target.value;
-    this.setState({ searchInput });
+    const { name, value } = target;
+    this.setState({ [name]: value }, () => {
+      const { prodList } = this.state;
+      if (prodList.length && name === 'priceFilter') this.sortProdsByPrice(prodList);
+    });
   };
 
   handleChangeCategory = async ({ target }) => {
@@ -51,7 +55,8 @@ export default class App extends Component {
 
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     const prodList = prodsData.results;
-    this.setState({ prodList, didSearch: true, loading: false });
+    this.sortProdsByPrice(prodList);
+    this.setState({ didSearch: true, loading: false, priceFilter: '' });
   };
 
   handleClickSearch = async () => {
@@ -60,7 +65,8 @@ export default class App extends Component {
 
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     const prodList = prodsData.results;
-    this.setState({ prodList, didSearch: true, loading: false });
+    this.sortProdsByPrice(prodList);
+    this.setState({ didSearch: true, loading: false });
   };
 
   handleAddToCart = ({ target }) => {
@@ -100,6 +106,20 @@ export default class App extends Component {
     this.setState({ cartItems: [] });
   };
 
+  sortProdsByPrice = (prodList) => {
+    const { priceFilter } = this.state;
+    if (['asc', 'desc'].includes(priceFilter)) {
+      if (priceFilter === 'asc') {
+        prodList = prodList.sort(({ price: a }, { price: b }) => a - b);
+      } else {
+        prodList = prodList.sort(({ price: a }, { price: b }) => b - a);
+      }
+    } else {
+      prodList = prodList.sort(({ id: a }, { id: b }) => a.localeCompare(b));
+    }
+    this.setState({ prodList });
+  };
+
   render() {
     const {
       cartItems,
@@ -107,6 +127,7 @@ export default class App extends Component {
       prodList,
       categoryId,
       searchInput,
+      priceFilter,
       didSearch,
       loading,
       cartItemsAmount } = this.state;
@@ -117,6 +138,7 @@ export default class App extends Component {
       prodList,
       categoryId,
       searchInput,
+      priceFilter,
       didSearch,
       loading,
       cartItemsAmount };

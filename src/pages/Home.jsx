@@ -19,13 +19,10 @@ export default class Home extends Component {
       categories,
       prodList,
       searchInput,
+      priceFilter,
       categoryId,
       loading,
       cartItemsAmount } = homeStates;
-
-    if (loading) {
-      return (<Loading />);
-    }
 
     return (
       <div className="home-page">
@@ -39,12 +36,15 @@ export default class Home extends Component {
           handleChangeSearch={ handleChangeSearch }
           handleClickSearch={ handleClickSearch }
           searchInput={ searchInput }
+          priceFilter={ priceFilter }
         />
-        <ProductList
-          didSearch={ didSearch }
-          prodList={ prodList }
-          handleAddToCart={ handleAddToCart }
-        />
+        {loading ? (<Loading />) : (
+          <ProductList
+            didSearch={ didSearch }
+            prodList={ prodList }
+            handleAddToCart={ handleAddToCart }
+          />
+        )}
       </div>
     );
   }
@@ -55,6 +55,7 @@ Home.propTypes = {
     categories: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
+      priceFilter: PropTypes.string,
     }),
     cartItemsAmount: PropTypes.number,
     categoryId: PropTypes.string,
