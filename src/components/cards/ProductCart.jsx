@@ -5,17 +5,17 @@ import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductCart extends Component {
   render() {
-    const { product, handleChangeProdAmount } = this.props;
+    const { product, handleChangeProdQuantity } = this.props;
 
     const { title,
       thumbnail,
       price,
-      cartAmount,
       id,
-      available_quantity: available,
+      cart_quantity: cartQuantity,
+      available_quantity: availableQuantity,
     } = product;
 
-    const prodFinalPrice = fixPriceDisplay((price * cartAmount).toFixed(2));
+    const prodFinalPrice = fixPriceDisplay(price * cartQuantity);
 
     return (
       <div className="product-cart-card">
@@ -31,35 +31,35 @@ export default class ProductCart extends Component {
             {`R$ ${prodFinalPrice}`}
           </p>
         </Link>
-        <div className="product-amount-container">
+        <div className="product-quantity-container">
           <button
             data-testid="remove-product"
             name={ id }
             value="X"
-            onClick={ handleChangeProdAmount }
+            onClick={ handleChangeProdQuantity }
           >
             X
           </button>
           <button
             data-testid="product-decrease-quantity"
-            disabled={ cartAmount < 2 }
+            disabled={ cartQuantity < 2 }
             name={ id }
             value="-"
-            onClick={ handleChangeProdAmount }
+            onClick={ handleChangeProdQuantity }
           >
             -
           </button>
           <p
             data-testid="shopping-cart-product-quantity"
           >
-            {`Quantidade: ${cartAmount}`}
+            {`Quantidade: ${cartQuantity}`}
           </p>
           <button
             data-testid="product-increase-quantity"
-            disabled={ cartAmount === available }
+            disabled={ cartQuantity === availableQuantity }
             name={ id }
             value="+"
-            onClick={ handleChangeProdAmount }
+            onClick={ handleChangeProdQuantity }
           >
             +
           </button>
@@ -71,11 +71,11 @@ export default class ProductCart extends Component {
 
 ProductCart.propTypes = {
   product: PropTypes.shape({
-    cartAmount: PropTypes.number,
+    cartQuantity: PropTypes.number,
     id: PropTypes.string,
     price: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
   }),
-  handleChangeProdAmount: PropTypes.func,
+  handleChangeProdQuantity: PropTypes.func,
 }.isRequired;

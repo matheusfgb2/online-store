@@ -4,18 +4,24 @@ import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductCheckout extends Component {
   render() {
-    const { product: { title, cartAmount, price, thumbnail } } = this.props;
+    const {
+      product: { title,
+        price,
+        thumbnail,
+        cart_quantity: cartQuantity,
+      },
+    } = this.props;
 
-    const fixedPrice = fixPriceDisplay(price.toFixed(2));
-    const prodFinalPrice = fixPriceDisplay((price * cartAmount).toFixed(2));
+    const fixedPrice = fixPriceDisplay(price);
+    const prodFinalPrice = fixPriceDisplay(price * cartQuantity);
 
-    const areMultipleProds = cartAmount > 1;
+    const areMultipleProds = cartQuantity > 1;
 
     return (
       <div className="product-checkout-container">
         <img src={ thumbnail } alt={ title } />
         <h4>{title}</h4>
-        <p>{`Quantidade: ${cartAmount}`}</p>
+        <p>{`Quantidade: ${cartQuantity}`}</p>
         <p>
           {`Total: R$ ${prodFinalPrice} ${
             areMultipleProds ? `[unid.: R$ ${fixedPrice}]` : ''
@@ -29,7 +35,7 @@ export default class ProductCheckout extends Component {
 
 ProductCheckout.propTypes = {
   cartItems: PropTypes.shape({
-    cartAmount: PropTypes.number,
+    cart_quantity: PropTypes.number,
     price: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,

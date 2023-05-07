@@ -35,16 +35,15 @@ export default class ProductDetail extends Component {
           price,
           id,
           attributes,
+          available_quantity: available,
           sale_terms: saleTerms,
-          shipping,
+          shipping: { free_shipping: freeShipping },
         },
       handleAddToCart } = this.props;
-    const { free_shipping: freeShipping } = shipping;
-
     const { evaluations } = this.state;
 
     const fullAddress = this.getProductAddress();
-    const fixedPrice = fixPriceDisplay(price.toFixed(2));
+    const fixedPrice = fixPriceDisplay(price);
 
     return (
       <div className="product-detail-container">
@@ -55,6 +54,7 @@ export default class ProductDetail extends Component {
             alt={ title }
           />
           <h2 data-testid="product-detail-name">{title}</h2>
+          <h4>{`${available} ${available > 1 ? 'restantes' : 'restante'}`}</h4>
           <h3>{`Valor: R$ ${fixedPrice}`}</h3>
           {freeShipping ? (
             <p>Frete Grátis</p>

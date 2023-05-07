@@ -16,7 +16,7 @@ export default class ProductPage extends Component {
 
   render() {
     const { product, loading } = this.state;
-    const { cartItemsAmount, handleAddToCart } = this.props;
+    const { cartTotalQuantity, handleAddToCart } = this.props;
 
     if (loading) {
       return (<Loading />);
@@ -24,7 +24,7 @@ export default class ProductPage extends Component {
 
     return (
       <div className="product-page">
-        <Header cartItemsAmount={ cartItemsAmount } />
+        <Header cartTotalQuantity={ cartTotalQuantity } />
         <ProductDetail
           product={ product }
           handleAddToCart={ handleAddToCart }
@@ -35,7 +35,7 @@ export default class ProductPage extends Component {
 }
 
 ProductPage.propTypes = {
-  cartItemsAmount: PropTypes.number,
+  cartTotalQuantity: PropTypes.number,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,

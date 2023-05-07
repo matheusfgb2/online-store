@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default class Header extends Component {
   render() {
-    const { cartItemsAmount } = this.props;
+    const { cartTotalQuantity } = this.props;
     return (
       <div className="header-container">
         <Link
           to="/cart"
           data-testid="shopping-cart-button"
         >
-          <p data-testid="shopping-cart-size">{`Carrinho (${cartItemsAmount})`}</p>
+          <p data-testid="shopping-cart-size">{`Carrinho (${cartTotalQuantity})`}</p>
 
         </Link>
 
@@ -21,5 +21,5 @@ export default class Header extends Component {
   }
 }
 Header.propTypes = {
-  cartItemsAmount: PropTypes.number,
+  cartTotalQuantity: PropTypes.number,
 }.isRequired;

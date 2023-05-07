@@ -7,9 +7,12 @@ import ProductPage from './pages/ProductPage';
 import { getCategories, getProductsFromCategoryAndQuery } from './services/api';
 import Checkout from './pages/Checkout';
 
+const CART_ITEMS = 'cart-items';
+const CART_TOTAL_QUANTITY = 'cart-total-quantity';
+
 export default class App extends Component {
   state = {
-    cartItems: JSON.parse(localStorage.getItem('cart-items')) || [],
+    cartItems: JSON.parse(localStorage.getItem(CART_ITEMS)) || [],
     categories: [],
     prodList: [],
     categoryId: '',
@@ -17,7 +20,7 @@ export default class App extends Component {
     priceFilter: '',
     didSearch: false,
     loading: false,
-    cartItemsAmount: localStorage.getItem('cart-amount') || 0,
+    cartTotalQuantity: localStorage.getItem(CART_TOTAL_QUANTITY) || 0,
   };
 
   async componentDidMount() {
@@ -26,18 +29,24 @@ export default class App extends Component {
 
   saveCartItemsIntoLS = () => {
     const { cartItems } = this.state;
-    localStorage.setItem('cart-items', JSON.stringify(cartItems));
-    this.saveCartItemsAmountIntoLS();
+    localStorage.setItem(CART_ITEMS, JSON.stringify(cartItems));
+    this.saveCartTotalQuantityIntoLS();
   };
 
-  saveCartItemsAmountIntoLS = () => {
+  saveCartTotalQuantityIntoLS = () => {
     const { cartItems } = this.state;
-    const cartItemsAmount = cartItems
-      .reduce((total, { cartAmount }) => total + cartAmount, 0);
+    const cartTotalQuantity = cartItems
+      .reduce((total, { cart_quantity: cartQuantity }) => total + cartQuantity, 0);
 
-    localStorage.setItem('cart-amount', cartItemsAmount);
+    localStorage.setItem(CART_TOTAL_QUANTITY, cartTotalQuantity);
 
-    this.setState({ cartItemsAmount });
+    this.setState({ cartTotalQuantity });
+  };
+
+  removeCartItems = () => {
+    localStorage.removeItem(CART_ITEMS);
+    localStorage.removeItem(CART_TOTAL_QUANTITY);
+    this.setState({ cartItems: [], cartTotalQuantity: 0 });
   };
 
   handleChangeSearch = ({ target }) => {
@@ -76,17 +85,17 @@ export default class App extends Component {
     const sameProdInCart = cartItems.find(({ id }) => product.id === id);
 
     if (sameProdInCart) {
-      sameProdInCart.cartAmount += 1;
+      sameProdInCart.cart_quantity += 1;
       this.saveCartItemsIntoLS();
     } else {
-      product.cartAmount = 1;
+      product.cart_quantity = 1;
       this.setState((prev) => ({
         cartItems: [...prev.cartItems, product],
       }), this.saveCartItemsIntoLS);
     }
   };
 
-  handleChangeProdAmount = ({ target }) => {
+  handleChangeProdQuantity = ({ target }) => {
     const { name: prodId, value } = target;
     let { cartItems } = this.state;
 
@@ -95,15 +104,11 @@ export default class App extends Component {
     } else {
       const product = cartItems.find(({ id }) => prodId === id);
 
-      if (value === '+') product.cartAmount += 1;
-      if (value === '-' && product.cartAmount > 1) product.cartAmount -= 1;
+      if (value === '+') product.cart_quantity += 1;
+      if (value === '-' && product.cart_quantity > 1) product.cart_quantity -= 1;
     }
 
     this.setState({ cartItems }, this.saveCartItemsIntoLS);
-  };
-
-  clearCartItemsState = () => {
-    this.setState({ cartItems: [] });
   };
 
   sortProdsByPrice = (prodList) => {
@@ -130,7 +135,7 @@ export default class App extends Component {
       priceFilter,
       didSearch,
       loading,
-      cartItemsAmount } = this.state;
+      cartTotalQuantity } = this.state;
 
     const homeStates = {
       cartItems,
@@ -141,7 +146,7 @@ export default class App extends Component {
       priceFilter,
       didSearch,
       loading,
-      cartItemsAmount };
+      cartTotalQuantity };
 
     return (
       <Switch>
@@ -165,8 +170,9 @@ export default class App extends Component {
           render={ () => (
             <ShoppingCart
               cartItems={ cartItems }
-              cartItemsAmount={ cartItemsAmount }
-              handleChangeProdAmount={ this.handleChangeProdAmount }
+              cartTotalQuantity={ cartTotalQuantity }
+              handleChangeProdQuantity={ this.handleChangeProdQuantity }
+              removeCartItems={ this.removeCartItems }
             />
           ) }
         />
@@ -176,7 +182,7 @@ export default class App extends Component {
           render={ (props) => (
             <ProductPage
               { ...props }
-              cartItemsAmount={ cartItemsAmount }
+              cartTotalQuantity={ cartTotalQuantity }
               handleAddToCart={ this.handleAddToCart }
             />
           ) }
@@ -188,8 +194,8 @@ export default class App extends Component {
             <Checkout
               { ...props }
               cartItems={ cartItems }
-              cartItemsAmount={ cartItemsAmount }
-              clearCartItemsState={ this.clearCartItemsState }
+              cartTotalQuantity={ cartTotalQuantity }
+              removeCartItems={ this.removeCartItems }
             />
           ) }
         />

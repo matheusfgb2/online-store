@@ -55,14 +55,9 @@ export default class FormCheckout extends Component {
   };
 
   proceedToCheckout = () => {
-    this.clearCartItemsFromLS();
-    const { history, clearCartItemsState } = this.props;
-    clearCartItemsState();
+    const { history, removeCartItems } = this.props;
+    removeCartItems();
     history.push('/');
-  };
-
-  clearCartItemsFromLS = () => {
-    localStorage.removeItem('cart-items');
   };
 
   render() {
@@ -174,5 +169,5 @@ FormCheckout.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
-  clearCartItemsState: PropTypes.func,
+  removeCartItems: PropTypes.func,
 }.isRequired;

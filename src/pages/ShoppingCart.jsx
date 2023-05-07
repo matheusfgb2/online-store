@@ -6,11 +6,14 @@ import ProductCart from '../components/cards/ProductCart';
 
 export default class ShoppingCart extends Component {
   render() {
-    const { cartItems, cartItemsAmount, handleChangeProdAmount } = this.props;
+    const { cartItems,
+      cartTotalQuantity,
+      handleChangeProdQuantity,
+      removeCartItems } = this.props;
     const isCartEmpty = !cartItems.length;
     return (
       <div className="cart-page">
-        <Header cartItemsAmount={ cartItemsAmount } />
+        <Header cartTotalQuantity={ cartTotalQuantity } />
         {isCartEmpty ? (
           <h3
             data-testid="shopping-cart-empty-message"
@@ -19,11 +22,12 @@ export default class ShoppingCart extends Component {
           </h3>
         ) : (
           <div className="cart-products-container">
+            <button onClick={ removeCartItems }>Limpar carrinho</button>
             {cartItems
               .map((product) => (<ProductCart
                 key={ Math.random() }
                 product={ product }
-                handleChangeProdAmount={ handleChangeProdAmount }
+                handleChangeProdQuantity={ handleChangeProdQuantity }
               />))}
 
             <Link
@@ -42,12 +46,12 @@ export default class ShoppingCart extends Component {
 
 ShoppingCart.propTypes = {
   cartItems: PropTypes.arrayOf(PropTypes.shape({
-    cartAmount: PropTypes.number,
     id: PropTypes.string,
     price: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
   })),
-  cartItemsAmount: PropTypes.number,
-  handleChangeProdAmount: PropTypes.func,
+  cartTotalQuantity: PropTypes.number,
+  handleChangeProdQuantity: PropTypes.func,
+  removeCartItems: PropTypes.func,
 }.isRequired;

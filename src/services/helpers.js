@@ -1,4 +1,5 @@
 export const fixPriceDisplay = (price) => {
+  price = price.toFixed(2);
   let holePart = price.toString();
   holePart = holePart.substring(0, holePart.indexOf('.'));
 

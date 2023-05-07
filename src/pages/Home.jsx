@@ -22,11 +22,11 @@ export default class Home extends Component {
       priceFilter,
       categoryId,
       loading,
-      cartItemsAmount } = homeStates;
+      cartTotalQuantity } = homeStates;
 
     return (
       <div className="home-page">
-        <Header cartItemsAmount={ cartItemsAmount } />
+        <Header cartTotalQuantity={ cartTotalQuantity } />
         <Categories
           categories={ categories }
           handleChangeCategory={ handleChangeCategory }
@@ -57,7 +57,7 @@ Home.propTypes = {
       name: PropTypes.string,
       priceFilter: PropTypes.string,
     }),
-    cartItemsAmount: PropTypes.number,
+    cartTotalQuantity: PropTypes.number,
     categoryId: PropTypes.string,
     didSearch: PropTypes.bool,
     loading: PropTypes.bool,
