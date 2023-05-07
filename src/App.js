@@ -14,7 +14,7 @@ export default class App extends Component {
   state = {
     cartItems: JSON.parse(localStorage.getItem(CART_ITEMS)) || [],
     categories: [],
-    prodList: [],
+    products: { prodList: [], backup: [] },
     categoryId: '',
     searchInput: '',
     priceFilter: '',
@@ -52,8 +52,8 @@ export default class App extends Component {
   handleChangeSearch = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value }, () => {
-      const { prodList } = this.state;
-      if (prodList.length && name === 'priceFilter') this.sortProdsByPrice(prodList);
+      const { products: { prodList } } = this.state;
+      if (prodList.length && name === 'priceFilter') this.sortProdsByPrice();
     });
   };
 
@@ -64,8 +64,14 @@ export default class App extends Component {
 
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     const prodList = prodsData.results;
-    this.sortProdsByPrice(prodList);
-    this.setState({ didSearch: true, loading: false });
+    this.setState({
+      products: {
+        prodList,
+        backup: [...prodList],
+      },
+      didSearch: true,
+      loading: false,
+    }, this.sortProdsByPrice);
   };
 
   handleClickSearch = async () => {
@@ -74,13 +80,19 @@ export default class App extends Component {
 
     const prodsData = await getProductsFromCategoryAndQuery(categoryId, searchInput);
     const prodList = prodsData.results;
-    this.sortProdsByPrice(prodList);
-    this.setState({ didSearch: true, loading: false });
+    this.setState({
+      products: {
+        prodList,
+        backup: [...prodList],
+      },
+      didSearch: true,
+      loading: false,
+    }, this.sortProdsByPrice);
   };
 
   handleAddToCart = ({ target }) => {
     const prodId = target.value;
-    const { prodList, cartItems } = this.state;
+    const { products: { prodList }, cartItems } = this.state;
     const product = prodList.find(({ id }) => id === prodId);
     const sameProdInCart = cartItems.find(({ id }) => product.id === id);
 
@@ -111,25 +123,40 @@ export default class App extends Component {
     this.setState({ cartItems }, this.saveCartItemsIntoLS);
   };
 
-  sortProdsByPrice = (prodList) => {
-    const { priceFilter } = this.state;
-    if (['asc', 'desc'].includes(priceFilter)) {
-      if (priceFilter === 'asc') {
-        prodList = prodList.sort(({ price: a }, { price: b }) => a - b);
-      } else {
-        prodList = prodList.sort(({ price: a }, { price: b }) => b - a);
-      }
-    } else {
-      prodList = prodList.sort(({ id: a }, { id: b }) => a.localeCompare(b));
+  sortProdsByPrice = () => {
+    const { priceFilter, products } = this.state;
+    let { prodList } = products;
+
+    switch (priceFilter) {
+    case 'asc':
+      prodList = prodList.sort(({ price: a }, { price: b }) => a - b);
+      break;
+
+    case 'desc':
+      prodList = prodList.sort(({ price: a }, { price: b }) => b - a);
+      break;
+
+    case 'no-filter':
+      prodList = [...products.backup];
+      break;
+
+    default:
+      break;
     }
-    this.setState({ prodList });
+
+    this.setState((prev) => ({
+      products: {
+        ...prev.products,
+        prodList,
+      },
+    }));
   };
 
   render() {
     const {
       cartItems,
       categories,
-      prodList,
+      products: { prodList },
       categoryId,
       searchInput,
       priceFilter,

@@ -47,30 +47,29 @@ export default class ProductHome extends Component {
       const remainingProds = availableQuantity - cartQuantity;
 
       return (
-        <div className="product-home-card">
+        <li
+          data-testid="product"
+          className="product-item"
+        >
           <Link
             data-testid="product-detail-link"
             to={ `/products/${id}` }
           >
-            <li
-              data-testid="product"
-            >
-              <img
-                src={ thumbnail }
-                alt={ title }
-              />
-              <h3>{title}</h3>
-              <p>
-                {`${remainingProds} ${
-                  availableQuantity > 1 ? 'restantes' : 'restante'}`}
-              </p>
-              <p>
-                <span>{`R$ ${fixedPrice}`}</span>
-                {freeShipping ? (
-                  <span data-testid="free-shipping"> (Frete Grátis)</span>
-                ) : null}
-              </p>
-            </li>
+            <img
+              src={ thumbnail }
+              alt={ title }
+            />
+            <h3>{title}</h3>
+            <p>
+              {`${remainingProds} ${
+                availableQuantity > 1 ? 'restantes' : 'restante'}`}
+            </p>
+            <p>
+              <span>{`R$ ${fixedPrice}`}</span>
+              {freeShipping ? (
+                <span data-testid="free-shipping"> (Frete Grátis)</span>
+              ) : null}
+            </p>
           </Link>
           <button
             data-testid="product-add-to-cart"
@@ -80,7 +79,7 @@ export default class ProductHome extends Component {
           >
             Adicionar ao carrinho
           </button>
-        </div>
+        </li>
       );
     }
   }

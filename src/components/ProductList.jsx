@@ -7,33 +7,32 @@ export default class ProductList extends Component {
     const { didSearch, prodList, handleAddToCart } = this.props;
     const emptyProdList = prodList === undefined || !prodList.length;
     return (
-      <div>
-        {didSearch ? (
-          <div className="product-list-result">
-            { emptyProdList ? (
-              <h4 className="product-not-found">Nenhum produto foi encontrado</h4>
-            ) : (
-              <div className="products-container">
-                {prodList.map((product) => (
-                  <ProductHome
-                    key={ Math.random() }
-                    product={ product }
-                    handleAddToCart={ handleAddToCart }
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        ) : (
-          <h4
-            data-testid="home-initial-message"
-            className="home-initial-message"
-          >
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </h4>
-        )}
 
-      </div>
+      didSearch ? (
+        <div className="product-list-container">
+          { emptyProdList ? (
+            <h4 className="product-not-found">Nenhum produto foi encontrado</h4>
+          ) : (
+            <ul className="product-list">
+              {prodList.map((product) => (
+                <ProductHome
+                  key={ Math.random() }
+                  product={ product }
+                  handleAddToCart={ handleAddToCart }
+                />
+              ))}
+            </ul>
+          )}
+        </div>
+      ) : (
+        <h4
+          data-testid="home-initial-message"
+          className="home-initial-message"
+        >
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </h4>
+      )
+
     );
   }
 }
