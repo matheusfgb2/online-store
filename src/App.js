@@ -27,7 +27,7 @@ export default class App extends Component {
 
   async componentDidMount() {
     const noCategory = { id: NO_CATEGORY, name: 'Sem Categoria' };
-    const categories = [...await getCategories(), noCategory];
+    const categories = [noCategory, ...await getCategories()];
     this.setState({ categories });
     this.getTotalCartPrice();
   }
@@ -72,14 +72,6 @@ export default class App extends Component {
     this.setState({ cartItems: [], cartTotalQuantity: 0, cartTotalPrice: 0 });
   };
 
-  handleChangeSearch = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value }, () => {
-      const { products: { prodList } } = this.state;
-      if (prodList.length && name === 'priceFilter') this.sortProdsByPrice();
-    });
-  };
-
   handleChangeCategory = async ({ target }) => {
     const categoryId = target.value;
     const { query } = this.state;
@@ -91,6 +83,14 @@ export default class App extends Component {
       didSearch: !(categoryId === NO_CATEGORY && !query.length),
       loading: false,
     }, this.sortProdsByPrice);
+  };
+
+  handleChangeSearch = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value }, () => {
+      const { products: { prodList } } = this.state;
+      if (prodList.length && name === 'priceFilter') this.sortProdsByPrice();
+    });
   };
 
   handleClickSearch = async () => {
