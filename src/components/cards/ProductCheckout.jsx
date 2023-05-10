@@ -23,7 +23,7 @@ export default class ProductCheckout extends Component {
         <h4>{title}</h4>
         <p>{`Quantidade: ${cartQuantity}`}</p>
         <p>
-          {`Total: R$ ${prodFinalPrice} ${
+          {`Valor: R$ ${prodFinalPrice} ${
             areMultipleProds ? `[unid.: R$ ${fixedPrice}]` : ''
           }`}
 

@@ -15,8 +15,6 @@ export default class ProductCart extends Component {
       available_quantity: availableQuantity,
     } = product;
 
-    const prodFinalPrice = fixPriceDisplay(price * cartQuantity);
-
     return (
       <div className="product-cart-card">
         <Link to={ `/products/${id}` }>
@@ -28,7 +26,7 @@ export default class ProductCart extends Component {
           <p
             data-testid="product-detail-price"
           >
-            {`R$ ${prodFinalPrice}`}
+            {`R$ ${fixPriceDisplay(price)}`}
           </p>
         </Link>
         <div className="product-quantity-container">
@@ -70,12 +68,13 @@ export default class ProductCart extends Component {
 }
 
 ProductCart.propTypes = {
+  handleChangeProdQuantity: PropTypes.func.isRequired,
   product: PropTypes.shape({
-    cartQuantity: PropTypes.number,
+    available_quantity: PropTypes.number,
+    cart_quantity: PropTypes.number,
     id: PropTypes.string,
     price: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
-  }),
-  handleChangeProdQuantity: PropTypes.func,
-}.isRequired;
+  }).isRequired,
+};

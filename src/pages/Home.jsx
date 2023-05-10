@@ -19,7 +19,7 @@ export default class Home extends Component {
       didSearch,
       categories,
       prodList,
-      searchInput,
+      query,
       priceFilter,
       categoryId,
       loading,
@@ -36,7 +36,7 @@ export default class Home extends Component {
         <SearchInputs
           handleChangeSearch={ handleChangeSearch }
           handleClickSearch={ handleClickSearch }
-          searchInput={ searchInput }
+          query={ query }
           priceFilter={ priceFilter }
         />
         {loading ? (<Loading />) : (
@@ -58,6 +58,7 @@ Home.propTypes = {
       id: PropTypes.string,
       name: PropTypes.string,
       priceFilter: PropTypes.string,
+      query: PropTypes.string,
     }),
     cartTotalQuantity: PropTypes.number,
     categoryId: PropTypes.string,
@@ -70,7 +71,6 @@ Home.propTypes = {
         title: PropTypes.string,
       }),
     ),
-    searchInput: PropTypes.string,
   }),
 
   handleAddToCart: PropTypes.func,

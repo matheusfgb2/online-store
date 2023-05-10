@@ -3,10 +3,17 @@ import React, { Component } from 'react';
 import ProductCheckout from '../components/cards/ProductCheckout';
 import Header from '../components/Header';
 import FormCheckout from '../components/FormCheckout';
+import { fixPriceDisplay } from '../services/helpers';
 
 export default class Checkout extends Component {
   render() {
-    const { cartItems, cartTotalQuantity, history, removeCartItems } = this.props;
+    const {
+      cartItems,
+      cartTotalQuantity,
+      history,
+      removeCartItems,
+      cartTotalPrice,
+    } = this.props;
     return (
       <div className="checkout-page">
         <Header cartTotalQuantity={ cartTotalQuantity } />
@@ -14,6 +21,8 @@ export default class Checkout extends Component {
         {cartItems.map((product) => (
           <ProductCheckout key={ Math.random() } product={ product } />
         ))}
+
+        <h3>{`Total: R$ ${fixPriceDisplay(cartTotalPrice)}`}</h3>
 
         <FormCheckout history={ history } removeCartItems={ removeCartItems } />
       </div>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 export default class SearchInputs extends Component {
   render() {
-    const { searchInput,
+    const { query,
       priceFilter,
       handleChangeSearch,
       handleClickSearch } = this.props;
@@ -13,8 +13,8 @@ export default class SearchInputs extends Component {
         <input
           data-testid="query-input"
           type="text"
-          name="searchInput"
-          value={ searchInput }
+          name="query"
+          value={ query }
           placeholder="Digite o produto"
           onChange={ handleChangeSearch }
         />
@@ -65,5 +65,5 @@ SearchInputs.propTypes = {
   handleChangeSearch: PropTypes.func,
   handleClickSearch: PropTypes.func,
   priceFilter: PropTypes.string,
-  searchInput: PropTypes.string,
+  query: PropTypes.string,
 }.isRequired;

@@ -3,14 +3,18 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Header from '../components/Header';
 import ProductCart from '../components/cards/ProductCart';
+import { fixPriceDisplay } from '../services/helpers';
 
 export default class ShoppingCart extends Component {
   render() {
     const { cartItems,
       cartTotalQuantity,
       handleChangeProdQuantity,
-      removeCartItems } = this.props;
+      removeCartItems,
+      cartTotalPrice } = this.props;
+
     const isCartEmpty = !cartItems.length;
+
     return (
       <div className="cart-page">
         <Header cartTotalQuantity={ cartTotalQuantity } />
@@ -29,7 +33,7 @@ export default class ShoppingCart extends Component {
                 product={ product }
                 handleChangeProdQuantity={ handleChangeProdQuantity }
               />))}
-
+            <h3>{`Total: R$ ${fixPriceDisplay(cartTotalPrice)}`}</h3>
             <Link
               to="/checkout"
               data-testid="checkout-products"
@@ -46,12 +50,15 @@ export default class ShoppingCart extends Component {
 
 ShoppingCart.propTypes = {
   cartItems: PropTypes.arrayOf(PropTypes.shape({
+    available_quantity: PropTypes.number,
+    cart_quantity: PropTypes.number,
     id: PropTypes.string,
     price: PropTypes.number,
     thumbnail: PropTypes.string,
     title: PropTypes.string,
-  })),
-  cartTotalQuantity: PropTypes.number,
-  handleChangeProdQuantity: PropTypes.func,
-  removeCartItems: PropTypes.func,
-}.isRequired;
+  })).isRequired,
+  cartTotalPrice: PropTypes.number.isRequired,
+  cartTotalQuantity: PropTypes.number.isRequired,
+  handleChangeProdQuantity: PropTypes.func.isRequired,
+  removeCartItems: PropTypes.func.isRequired,
+};
