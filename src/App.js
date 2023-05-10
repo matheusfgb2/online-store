@@ -43,6 +43,17 @@ export default class App extends Component {
     this.setState({ cartTotalQuantity });
   };
 
+  getItemQuantityFromCart = (id) => {
+    const { cartItems } = this.state;
+    let cartQuantity = 0;
+
+    if (cartItems.length) {
+      const prodInCart = cartItems.find(({ id: prodId }) => prodId === id) || null;
+      cartQuantity = prodInCart !== null ? prodInCart.cart_quantity : 0;
+    }
+    return cartQuantity;
+  };
+
   removeCartItems = () => {
     localStorage.removeItem(CART_ITEMS);
     localStorage.removeItem(CART_TOTAL_QUANTITY);
@@ -188,6 +199,7 @@ export default class App extends Component {
               handleChangeSearch={ this.handleChangeSearch }
               handleClickSearch={ this.handleClickSearch }
               handleAddToCart={ this.handleAddToCart }
+              getItemQuantityFromCart={ this.getItemQuantityFromCart }
             />
           ) }
         />
@@ -211,6 +223,7 @@ export default class App extends Component {
               { ...props }
               cartTotalQuantity={ cartTotalQuantity }
               handleAddToCart={ this.handleAddToCart }
+              getItemQuantityFromCart={ this.getItemQuantityFromCart }
             />
           ) }
         />

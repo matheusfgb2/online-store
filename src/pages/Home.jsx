@@ -12,7 +12,8 @@ export default class Home extends Component {
       handleChangeCategory,
       handleChangeSearch,
       handleClickSearch,
-      handleAddToCart } = this.props;
+      handleAddToCart,
+      getItemQuantityFromCart } = this.props;
 
     const {
       didSearch,
@@ -43,6 +44,7 @@ export default class Home extends Component {
             didSearch={ didSearch }
             prodList={ prodList }
             handleAddToCart={ handleAddToCart }
+            getItemQuantityFromCart={ getItemQuantityFromCart }
           />
         )}
       </div>

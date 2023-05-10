@@ -5,10 +5,13 @@ import Evaluations from '../Evaluations';
 import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductDetail extends Component {
-  state = { evaluations: [] };
+  state = { evaluations: [], itemCartQuantity: null };
 
   componentDidMount() {
-    this.setState({ evaluations: this.getEvaluationsFromLS() });
+    const { getItemQuantityFromCart, product: { id } } = this.props;
+    const itemCartQuantity = getItemQuantityFromCart(id);
+
+    this.setState({ evaluations: this.getEvaluationsFromLS(), itemCartQuantity });
   }
 
   updateEvaluationsState = () => {
@@ -26,6 +29,12 @@ export default class ProductDetail extends Component {
     return `${city.name}, ${state.id} - ${country.name}`;
   };
 
+  countAddToCart = () => {
+    this.setState((prev) => ({
+      itemCartQuantity: prev.itemCartQuantity + 1,
+    }));
+  };
+
   render() {
     const {
       product:
@@ -35,15 +44,16 @@ export default class ProductDetail extends Component {
           price,
           id,
           attributes,
-          available_quantity: available,
+          available_quantity: availableQuantity,
           sale_terms: saleTerms,
           shipping: { free_shipping: freeShipping },
         },
       handleAddToCart } = this.props;
-    const { evaluations } = this.state;
+    const { evaluations, itemCartQuantity } = this.state;
 
     const fullAddress = this.getProductAddress();
     const fixedPrice = fixPriceDisplay(price);
+    const remainingProds = availableQuantity - itemCartQuantity;
 
     return (
       <div className="product-detail-container">
@@ -54,7 +64,7 @@ export default class ProductDetail extends Component {
             alt={ title }
           />
           <h2 data-testid="product-detail-name">{title}</h2>
-          <h4>{`${available} ${available > 1 ? 'restantes' : 'restante'}`}</h4>
+          <h4>{`${remainingProds} ${remainingProds > 1 ? 'restantes' : 'restante'}`}</h4>
           <h3>{`Valor: R$ ${fixedPrice}`}</h3>
           {freeShipping ? (
             <p>Frete Grátis</p>
@@ -95,7 +105,7 @@ export default class ProductDetail extends Component {
           <button
             data-testid="product-detail-add-to-cart"
             value={ id }
-            onClick={ handleAddToCart }
+            onClick={ (e) => { handleAddToCart(e); this.countAddToCart(); } }
           >
             Adicionar ao carrinho
           </button>

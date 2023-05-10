@@ -4,7 +4,7 @@ import ProductHome from './cards/ProductHome';
 
 export default class ProductList extends Component {
   render() {
-    const { didSearch, prodList, handleAddToCart } = this.props;
+    const { didSearch, prodList, handleAddToCart, getItemQuantityFromCart } = this.props;
     const emptyProdList = prodList === undefined || !prodList.length;
     return (
 
@@ -19,6 +19,7 @@ export default class ProductList extends Component {
                   key={ Math.random() }
                   product={ product }
                   handleAddToCart={ handleAddToCart }
+                  getItemQuantityFromCart={ getItemQuantityFromCart }
                 />
               ))}
             </ul>

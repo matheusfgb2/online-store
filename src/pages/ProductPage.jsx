@@ -16,7 +16,7 @@ export default class ProductPage extends Component {
 
   render() {
     const { product, loading } = this.state;
-    const { cartTotalQuantity, handleAddToCart } = this.props;
+    const { cartTotalQuantity, handleAddToCart, getItemQuantityFromCart } = this.props;
 
     if (loading) {
       return (<Loading />);
@@ -28,6 +28,7 @@ export default class ProductPage extends Component {
         <ProductDetail
           product={ product }
           handleAddToCart={ handleAddToCart }
+          getItemQuantityFromCart={ getItemQuantityFromCart }
         />
       </div>
     );

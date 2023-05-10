@@ -5,25 +5,20 @@ import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductHome extends Component {
   state = {
-    cartQuantity: null,
+    itemCartQuantity: null,
   };
 
   componentDidMount() {
-    const cartItemsFromLS = JSON.parse(localStorage.getItem('cart-items'));
-    let cartQuantity = 0;
+    const { getItemQuantityFromCart } = this.props;
+    const { product: { id } } = this.props;
+    const itemCartQuantity = getItemQuantityFromCart(id);
 
-    if (cartItemsFromLS) {
-      const { product: { id } } = this.props;
-      const prodInCart = cartItemsFromLS.find(({ id: prodId }) => prodId === id) || null;
-      cartQuantity = prodInCart !== null ? prodInCart.cart_quantity : 0;
-    }
-
-    this.setState({ cartQuantity });
+    this.setState({ itemCartQuantity });
   }
 
   countAddToCart = () => {
     this.setState((prev) => ({
-      cartQuantity: prev.cartQuantity + 1,
+      itemCartQuantity: prev.itemCartQuantity + 1,
     }));
   };
 
@@ -43,8 +38,8 @@ export default class ProductHome extends Component {
     if (price !== null) {
       const fixedPrice = fixPriceDisplay(price);
 
-      const { cartQuantity } = this.state;
-      const remainingProds = availableQuantity - cartQuantity;
+      const { itemCartQuantity } = this.state;
+      const remainingProds = availableQuantity - itemCartQuantity;
 
       return (
         <li
@@ -74,7 +69,7 @@ export default class ProductHome extends Component {
           <button
             data-testid="product-add-to-cart"
             value={ id }
-            disabled={ availableQuantity === cartQuantity }
+            disabled={ availableQuantity === itemCartQuantity }
             onClick={ (e) => { handleAddToCart(e); this.countAddToCart(); } }
           >
             Adicionar ao carrinho
