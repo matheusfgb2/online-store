@@ -105,6 +105,7 @@ export default class ProductDetail extends Component {
           <button
             data-testid="product-detail-add-to-cart"
             value={ id }
+            disabled={ availableQuantity === itemCartQuantity }
             onClick={ (e) => { handleAddToCart(e); this.countAddToCart(); } }
           >
             Adicionar ao carrinho
