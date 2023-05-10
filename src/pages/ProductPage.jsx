@@ -18,18 +18,16 @@ export default class ProductPage extends Component {
     const { product, loading } = this.state;
     const { cartTotalQuantity, handleAddToCart, getItemQuantityFromCart } = this.props;
 
-    if (loading) {
-      return (<Loading />);
-    }
-
     return (
       <div className="product-page">
         <Header cartTotalQuantity={ cartTotalQuantity } />
-        <ProductDetail
-          product={ product }
-          handleAddToCart={ handleAddToCart }
-          getItemQuantityFromCart={ getItemQuantityFromCart }
-        />
+        {loading ? <Loading /> : (
+          <ProductDetail
+            product={ product }
+            handleAddToCart={ handleAddToCart }
+            getItemQuantityFromCart={ getItemQuantityFromCart }
+          />
+        )}
       </div>
     );
   }

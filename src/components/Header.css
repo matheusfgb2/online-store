@@ -10,6 +10,9 @@
   justify-content: space-between;
   padding-left: 20px;
   padding-right: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .logo-img {
@@ -23,7 +26,7 @@
 
 img:active {
   font-size: 1rem;
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .cart-img-link-box {
