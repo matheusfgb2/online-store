@@ -57,6 +57,7 @@ export default class App extends Component {
   removeCartItems = () => {
     localStorage.removeItem(CART_ITEMS);
     localStorage.removeItem(CART_TOTAL_QUANTITY);
+    localStorage.removeItem('sellers');
     this.setState({ cartItems: [], cartTotalQuantity: 0 });
   };
 

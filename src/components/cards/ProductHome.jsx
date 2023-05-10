@@ -22,6 +22,14 @@ export default class ProductHome extends Component {
     }));
   };
 
+  saveSellerName = () => {
+    const { product: { id, seller: { nickname } } } = this.props;
+    const sellers = JSON.parse(localStorage.getItem('sellers')) || {};
+
+    sellers[nickname] = sellers[nickname] ? [...sellers[nickname], id] : [id];
+    localStorage.setItem('sellers', JSON.stringify(sellers));
+  };
+
   render() {
     const {
       product: {
@@ -31,6 +39,7 @@ export default class ProductHome extends Component {
         id,
         shipping,
         available_quantity: availableQuantity,
+        seller: { nickname },
       },
       handleAddToCart } = this.props;
     const { free_shipping: freeShipping } = shipping;
@@ -40,7 +49,6 @@ export default class ProductHome extends Component {
 
       const { itemCartQuantity } = this.state;
       const remainingProds = availableQuantity - itemCartQuantity;
-
       return (
         <li
           data-testid="product"
@@ -49,12 +57,14 @@ export default class ProductHome extends Component {
           <Link
             data-testid="product-detail-link"
             to={ `/products/${id}` }
+            onClick={ this.saveSellerName }
           >
             <img
               src={ thumbnail }
               alt={ title }
             />
             <h3>{title}</h3>
+            <h5>{nickname}</h5>
             <p>
               {`${remainingProds} ${
                 availableQuantity > 1 ? 'restantes' : 'restante'}`}

@@ -5,13 +5,22 @@ import Evaluations from '../Evaluations';
 import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductDetail extends Component {
-  state = { evaluations: [], itemCartQuantity: null };
+  state = {
+    evaluations: [],
+    itemCartQuantity: null,
+    seller: null,
+  };
 
   componentDidMount() {
     const { getItemQuantityFromCart, product: { id } } = this.props;
-    const itemCartQuantity = getItemQuantityFromCart(id);
 
-    this.setState({ evaluations: this.getEvaluationsFromLS(), itemCartQuantity });
+    const evaluations = this.getEvaluationsFromLS();
+    const itemCartQuantity = getItemQuantityFromCart(id);
+    const sellers = JSON.parse(localStorage.getItem('sellers'));
+    const seller = Object.entries(sellers)
+      .find(([, prodsIds]) => prodsIds.includes(id))[0];
+
+    this.setState({ evaluations, itemCartQuantity, seller });
   }
 
   updateEvaluationsState = () => {
@@ -49,7 +58,7 @@ export default class ProductDetail extends Component {
           shipping: { free_shipping: freeShipping },
         },
       handleAddToCart } = this.props;
-    const { evaluations, itemCartQuantity } = this.state;
+    const { evaluations, itemCartQuantity, seller } = this.state;
 
     const fullAddress = this.getProductAddress();
     const fixedPrice = fixPriceDisplay(price);
@@ -64,6 +73,7 @@ export default class ProductDetail extends Component {
             alt={ title }
           />
           <h2 data-testid="product-detail-name">{title}</h2>
+          <h3>{seller}</h3>
           <h4>{`${remainingProds} ${remainingProds > 1 ? 'restantes' : 'restante'}`}</h4>
           <h3>{`Valor: R$ ${fixedPrice}`}</h3>
           {freeShipping ? (
