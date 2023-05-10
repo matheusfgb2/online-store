@@ -1,0 +1,74 @@
+.product-image {
+  border-radius: 5px;
+  cursor: pointer;
+  height: 20vh;
+  transition: 0.3s;
+}
+
+.product-image:hover { opacity: 0.7; }
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.9);
+  display: block;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  padding-top: 100px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.modal-img {
+  animation-duration: 0.6s;
+  animation-name: zoom;
+  display: block;
+  margin: auto;
+  max-width: 700px;
+  width: 80%;
+}
+
+@keyframes zoom {
+
+  from { transform: scale(0);}
+
+  to { transform: scale(1);}
+}
+
+.close {
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: 700;
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  transition: 0.3s;
+}
+
+.close:hover, .close:focus {
+  color: #bbb;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.no-style-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: initial;
+  font: inherit;
+  outline: inherit;
+  padding: 0;
+}
+
+@media only screen and ( max-width : 700px ) {
+
+  .modal-img {
+    width: 100%;
+  }
+}

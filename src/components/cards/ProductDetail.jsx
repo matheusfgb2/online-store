@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import FormEvaluation from '../FormEvaluation';
 import Evaluations from '../Evaluations';
+import ImageFromProduct from './ImageFromProduct';
 import { fixPriceDisplay } from '../../services/helpers';
 
 export default class ProductDetail extends Component {
@@ -45,13 +46,13 @@ export default class ProductDetail extends Component {
       product:
         {
           title,
-          thumbnail,
           price,
           id,
           attributes,
           available_quantity: availableQuantity,
           sale_terms: saleTerms,
           shipping: { free_shipping: freeShipping },
+          pictures,
         },
       handleAddToCart } = this.props;
     const { evaluations, itemCartQuantity } = this.state;
@@ -63,13 +64,22 @@ export default class ProductDetail extends Component {
     return (
       <div className="product-detail-container">
         <div className="product-detail-card">
-          <img
-            data-testid="product-detail-image"
-            src={ thumbnail }
-            alt={ title }
-          />
+
           <h2 data-testid="product-detail-name">{title}</h2>
-          <h4>{`${remainingProds} ${remainingProds > 1 ? 'restantes' : 'restante'}`}</h4>
+
+          {pictures.map(({ id: picId, url }) => (
+            <ImageFromProduct
+              title={ title }
+              key={ picId }
+              id={ picId }
+              url={ url }
+            />))}
+
+          <h4>
+            {`${remainingProds} ${remainingProds > 1
+              ? 'restantes' : 'restante'}`}
+
+          </h4>
           <h3>{`Valor: R$ ${fixedPrice}`}</h3>
           {freeShipping ? (
             <p>Frete Grátis</p>
