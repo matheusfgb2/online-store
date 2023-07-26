@@ -8,3 +8,5 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
+
+Este projeto foi desenvolvido no curso da Trybe, durante o módulo de front-end, para solidificar conhecimentos de React, ciclos de vida de componentes de classe, manipulação de estado, React Router; além de requisições e consumo de dados via API.
