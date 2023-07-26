@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { fixPriceDisplay } from '../../services/helpers';
 
+import './ProductHome.css';
+
 export default class ProductHome extends Component {
   state = {
     itemCartQuantity: null,
@@ -66,10 +68,6 @@ export default class ProductHome extends Component {
             <h3>{title}</h3>
             <h5>{nickname}</h5>
             <p>
-              {`${remainingProds} ${
-                availableQuantity > 1 ? 'restantes' : 'restante'}`}
-            </p>
-            <p>
               <span>{`R$ ${fixedPrice}`}</span>
               {freeShipping ? (
                 <span data-testid="free-shipping"> (Frete Grátis)</span>
@@ -84,6 +82,10 @@ export default class ProductHome extends Component {
           >
             Adicionar ao carrinho
           </button>
+          <p>
+            {`${remainingProds} ${
+              availableQuantity > 1 ? 'restantes' : 'restante'}`}
+          </p>
         </li>
       );
     }

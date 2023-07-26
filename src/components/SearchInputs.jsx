@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import './SearchInputs.css';
+
 export default class SearchInputs extends Component {
   render() {
     const { query,

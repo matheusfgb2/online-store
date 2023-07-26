@@ -1,0 +1,9 @@
+.home-initial-message, .product-not-found, .product-list-container {
+  padding-top: 50px;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

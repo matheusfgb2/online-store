@@ -6,6 +6,8 @@ import Categories from '../components/Categories';
 import SearchInputs from '../components/SearchInputs';
 import Loading from '../components/Loading';
 
+import './Home.css';
+
 export default class Home extends Component {
   render() {
     const { homeStates,
@@ -28,25 +30,31 @@ export default class Home extends Component {
     return (
       <div className="home-page">
         <Header cartTotalQuantity={ cartTotalQuantity } />
-        <Categories
-          categories={ categories }
-          handleChangeCategory={ handleChangeCategory }
-          category={ categoryId }
-        />
-        <SearchInputs
-          handleChangeSearch={ handleChangeSearch }
-          handleClickSearch={ handleClickSearch }
-          query={ query }
-          priceFilter={ priceFilter }
-        />
-        {loading ? (<Loading />) : (
-          <ProductList
-            didSearch={ didSearch }
-            prodList={ prodList }
-            handleAddToCart={ handleAddToCart }
-            getItemQuantityFromCart={ getItemQuantityFromCart }
-          />
-        )}
+        <div className="body-container">
+          <aside className="aside">
+            <Categories
+              categories={ categories }
+              handleChangeCategory={ handleChangeCategory }
+              category={ categoryId }
+            />
+          </aside>
+          <main className="main">
+            <SearchInputs
+              handleChangeSearch={ handleChangeSearch }
+              handleClickSearch={ handleClickSearch }
+              query={ query }
+              priceFilter={ priceFilter }
+            />
+            {loading ? (<Loading />) : (
+              <ProductList
+                didSearch={ didSearch }
+                prodList={ prodList }
+                handleAddToCart={ handleAddToCart }
+                getItemQuantityFromCart={ getItemQuantityFromCart }
+              />
+            )}
+          </main>
+        </div>
       </div>
     );
   }

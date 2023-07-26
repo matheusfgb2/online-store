@@ -1,0 +1,8 @@
+.categories-container {
+  position: fixed;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+}

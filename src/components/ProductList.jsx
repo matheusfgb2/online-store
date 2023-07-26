@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ProductHome from './cards/ProductHome';
 
+import './ProductList.css';
+
 export default class ProductList extends Component {
   render() {
     const { didSearch, prodList, handleAddToCart, getItemQuantityFromCart } = this.props;
